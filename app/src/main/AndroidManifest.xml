@@ -48,9 +48,9 @@
             android:process=":remote">
         </service>
         <meta-data
-
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="IPp4v85470GOQl6bRIUqQdr29kv3cHbP" />       //key:开发者申请的Key
+            android:value="IPp4v85470GOQl6bRIUqQdr29kv3cHbP" />
+<!--        //key:开发者申请的Key-->
     </application>
 
 </manifest>

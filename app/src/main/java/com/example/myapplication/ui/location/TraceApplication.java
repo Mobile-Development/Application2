@@ -51,12 +51,12 @@ public class TraceApplication extends Application {
     /**
      * 轨迹服务ID
      */
-    public long serviceId = 0;//这里是申请的鹰眼服务id
+    public long serviceId = 217567;//这里是申请的鹰眼服务id
 
     /**
      * Entity标识
      */
-    public String entityName = "myTrace";
+    public String entityName = "myTrace1";
 
     public boolean isRegisterReceiver = false;
 

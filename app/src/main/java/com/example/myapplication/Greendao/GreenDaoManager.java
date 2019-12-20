@@ -5,10 +5,12 @@ import android.app.Application;
 import com.example.myapplication.Greendao.entry.StepInfo;
 import com.example.myapplication.Greendao.gen.DaoMaster;
 import com.example.myapplication.Greendao.gen.DaoSession;
+import com.example.myapplication.ui.location.TraceApplication;
+import com.example.myapplication.ui.location.TraceFragment;
 import com.example.myapplication.utils.DateUtil;
 
 
-public class GreenDaoManager extends Application {
+public class GreenDaoManager extends TraceApplication {
     private DaoMaster mDaoMaster;
     private DaoSession mDaoSession;
     private static GreenDaoManager mInstance;

@@ -53,11 +53,10 @@ import static android.content.Context.SENSOR_SERVICE;
 
 /**
  * 轨迹时时追踪
- * Created by zhh
  */
 public class TraceFragment extends BaseFragment implements View.OnClickListener, SensorEventListener {
 
-    private TraceApplication trackApp = null;
+    private TraceApplication traceApp = null;
 
     private ViewUtil viewUtil = null;
 
@@ -116,12 +115,13 @@ public class TraceFragment extends BaseFragment implements View.OnClickListener,
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getActivity().setContentView(getContentViewId());
-        init();
+        View view = inflater.inflate(R.layout.fragment_trace, container, false);
+        initView(view);
         return inflater.inflate(R.layout.fragment_trace,container,false);
-//        setTitle(R.string.tracing_title);
-//        setOptionsText();
+    }
+    public void onCreate(Bundle savedInstanceState) {
+        init();
+        super.onCreate(savedInstanceState);
     }
 
 //    public void setOptionsText() {
@@ -130,26 +130,26 @@ public class TraceFragment extends BaseFragment implements View.OnClickListener,
 //        textView.setText("轨迹追踪设置");
 //    }
 
-    private void init() {
-        initListener();
-        trackApp = (TraceApplication) getActivity().getApplicationContext();
+    private void initView(View view) {
         viewUtil = new ViewUtil();
         mapUtil = MapUtil.getInstance();
-        mapUtil.init((MapView) getActivity().findViewById(R.id.bmapView));
+        mapUtil.init((MapView) view.findViewById(R.id.bmapView));
         mapUtil.setCenter(mCurrentDirection);//设置地图中心点
-        powerManager = (PowerManager) trackApp.getSystemService(Context.POWER_SERVICE);
-        mSensorManager = (SensorManager) getActivity().getSystemService(SENSOR_SERVICE);// 获取传感器管理服务
-
-        traceStartBtn = (Button) getActivity().findViewById(R.id.buttonStart);
+        traceStartBtn = (Button) view.findViewById(R.id.buttonStart);
 //        traceFinishBtn = (Button) getActivity().findViewById(R.id.buttonFinish);
-
         traceStartBtn.setOnClickListener(this);
 //        traceFinishBtn.setOnClickListener(this);
-        setTraceBtnStyle();
+         setTraceBtnStyle();
 //        setGatherBtnStyle();
 
-        trackPoints = new ArrayList<>();
+    }
 
+    private void init(){
+        traceApp = (TraceApplication) getActivity().getApplicationContext();
+        trackPoints = new ArrayList<>();
+        initListener();
+        powerManager = (PowerManager) traceApp.getSystemService(Context.POWER_SERVICE);
+        mSensorManager = (SensorManager) traceApp.getSystemService(SENSOR_SERVICE);// 获取传感器管理服务
     }
 
     @Override
@@ -181,13 +181,13 @@ public class TraceFragment extends BaseFragment implements View.OnClickListener,
 //                break;
 
             case R.id.buttonStart:
-                if (trackApp.isTraceStarted) {
-                    trackApp.mClient.stopGather(traceListener);
-                    trackApp.mClient.stopTrace(trackApp.mTrace, traceListener);//停止服务
+                if (traceApp.isTraceStarted) {
+                    traceApp.mClient.stopGather(traceListener);
+                    traceApp.mClient.stopTrace(traceApp.mTrace, traceListener);//停止服务
                 } else {
-                    trackApp.mClient.setInterval(Constant.DEFAULT_GATHER_INTERVAL, packInterval);
-                    trackApp.mClient.startGather(traceListener);//开启采集
-                    trackApp.mClient.startTrace(trackApp.mTrace, traceListener);//开始服务
+                    traceApp.mClient.setInterval(Constant.DEFAULT_GATHER_INTERVAL, packInterval);
+                    traceApp.mClient.startGather(traceListener);//开启采集
+                    traceApp.mClient.startTrace(traceApp.mTrace, traceListener);//开始服务
                 }
                 break;
 //
@@ -210,7 +210,7 @@ public class TraceFragment extends BaseFragment implements View.OnClickListener,
      * 设置服务按钮样式
      */
     private void setTraceBtnStyle() {
-        boolean isTraceStarted = trackApp.trackConf.getBoolean("is_trace_started", false);
+        boolean isTraceStarted = traceApp.trackConf.getBoolean("is_trace_started", false);
         if (isTraceStarted) {
             traceStartBtn.setText(R.string.stop_trace);
             traceStartBtn.setTextColor(ResourcesCompat.getColor(getResources(), R.color
@@ -276,7 +276,7 @@ public class TraceFragment extends BaseFragment implements View.OnClickListener,
 
         @Override
         public void run() {
-            trackApp.getCurrentLocation(entityListener, trackListener);
+            traceApp.getCurrentLocation(entityListener, trackListener);
             realTimeHandler.postDelayed(this, interval * 1000);
         }
     }
@@ -290,7 +290,7 @@ public class TraceFragment extends BaseFragment implements View.OnClickListener,
         if (null != realTimeHandler && null != realTimeLocRunnable) {
             realTimeHandler.removeCallbacks(realTimeLocRunnable);
         }
-        trackApp.mClient.stopRealTimeLoc();
+        traceApp.mClient.stopRealTimeLoc();
     }
 
     @Override
@@ -301,21 +301,20 @@ public class TraceFragment extends BaseFragment implements View.OnClickListener,
 
         if (data.hasExtra("locationMode")) {
             LocationMode locationMode = LocationMode.valueOf(data.getStringExtra("locationMode"));
-            trackApp.mClient.setLocationMode(locationMode);//定位模式
+            traceApp.mClient.setLocationMode(locationMode);//定位模式
         }
-        trackApp.mTrace.setNeedObjectStorage(false);
+        traceApp.mTrace.setNeedObjectStorage(false);
 
         if (data.hasExtra("gatherInterval") && data.hasExtra("packInterval")) {
             int gatherInterval = data.getIntExtra("gatherInterval", Constant.DEFAULT_GATHER_INTERVAL);
             int packInterval = data.getIntExtra("packInterval", Constant.DEFAULT_PACK_INTERVAL);
             TraceFragment.this.packInterval = packInterval;
-            trackApp.mClient.setInterval(gatherInterval, packInterval);//设置频率
+            traceApp.mClient.setInterval(gatherInterval, packInterval);//设置频率
         }
 
     }
 
     private void initListener() {
-
         trackListener = new OnTrackListener() {
 
             @Override
@@ -405,8 +404,8 @@ public class TraceFragment extends BaseFragment implements View.OnClickListener,
             @Override
             public void onStartTraceCallback(int errorNo, String message) {
                 if (StatusCodes.SUCCESS == errorNo || StatusCodes.START_TRACE_NETWORK_CONNECT_FAILED <= errorNo) {
-                    trackApp.isTraceStarted = true;
-                    SharedPreferences.Editor editor = trackApp.trackConf.edit();
+                    traceApp.isTraceStarted = true;
+                    SharedPreferences.Editor editor = traceApp.trackConf.edit();
                     editor.putBoolean("is_trace_started", true);
                     editor.apply();
                     setTraceBtnStyle();
@@ -419,10 +418,10 @@ public class TraceFragment extends BaseFragment implements View.OnClickListener,
             @Override
             public void onStopTraceCallback(int errorNo, String message) {
                 if (StatusCodes.SUCCESS == errorNo || StatusCodes.CACHE_TRACK_NOT_UPLOAD == errorNo) {
-                    trackApp.isTraceStarted = false;
-                    trackApp.isGatherStarted = false;
+                    traceApp.isTraceStarted = false;
+                    traceApp.isGatherStarted = false;
                     // 停止成功后，直接移除is_trace_started记录（便于区分用户没有停止服务，直接杀死进程的情况）
-                    SharedPreferences.Editor editor = trackApp.trackConf.edit();
+                    SharedPreferences.Editor editor = traceApp.trackConf.edit();
                     editor.remove("is_trace_started");
                     editor.remove("is_gather_started");
                     editor.apply();
@@ -438,8 +437,8 @@ public class TraceFragment extends BaseFragment implements View.OnClickListener,
             @Override
             public void onStartGatherCallback(int errorNo, String message) {
                 if (StatusCodes.SUCCESS == errorNo || StatusCodes.GATHER_STARTED == errorNo) {
-                    trackApp.isGatherStarted = true;
-                    SharedPreferences.Editor editor = trackApp.trackConf.edit();
+                    traceApp.isGatherStarted = true;
+                    SharedPreferences.Editor editor = traceApp.trackConf.edit();
                     editor.putBoolean("is_gather_started", true);
                     editor.apply();
 //                    setGatherBtnStyle();
@@ -454,8 +453,8 @@ public class TraceFragment extends BaseFragment implements View.OnClickListener,
             @Override
             public void onStopGatherCallback(int errorNo, String message) {
                 if (StatusCodes.SUCCESS == errorNo || StatusCodes.GATHER_STOPPED == errorNo) {
-                    trackApp.isGatherStarted = false;
-                    SharedPreferences.Editor editor = trackApp.trackConf.edit();
+                    traceApp.isGatherStarted = false;
+                    SharedPreferences.Editor editor = traceApp.trackConf.edit();
                     editor.remove("is_gather_started");
                     editor.apply();
 //                    setGatherBtnStyle();
@@ -499,7 +498,7 @@ public class TraceFragment extends BaseFragment implements View.OnClickListener,
      */
     @SuppressLint("InvalidWakeLockTag")
     private void registerReceiver() {
-        if (trackApp.isRegisterReceiver) {
+        if (traceApp.isRegisterReceiver) {
             return;
         }
 
@@ -515,28 +514,28 @@ public class TraceFragment extends BaseFragment implements View.OnClickListener,
         filter.addAction(Intent.ACTION_SCREEN_ON);
         filter.addAction(Intent.ACTION_USER_PRESENT);
         filter.addAction(StatusCodes.GPS_STATUS_ACTION);
-        trackApp.registerReceiver(trackReceiver, filter);
-        trackApp.isRegisterReceiver = true;
+        traceApp.registerReceiver(trackReceiver, filter);
+        traceApp.isRegisterReceiver = true;
 
     }
 
     private void unregisterPowerReceiver() {
-        if (!trackApp.isRegisterReceiver) {
+        if (!traceApp.isRegisterReceiver) {
             return;
         }
         if (null != trackReceiver) {
-            trackApp.unregisterReceiver(trackReceiver);
+            traceApp.unregisterReceiver(trackReceiver);
         }
-        trackApp.isRegisterReceiver = false;
+        traceApp.isRegisterReceiver = false;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        if (trackApp.trackConf.contains("is_trace_started")
-                && trackApp.trackConf.contains("is_gather_started")
-                && trackApp.trackConf.getBoolean("is_trace_started", false)
-                && trackApp.trackConf.getBoolean("is_gather_started", false)) {
+        if (traceApp.trackConf.contains("is_trace_started")
+                && traceApp.trackConf.contains("is_gather_started")
+                && traceApp.trackConf.getBoolean("is_trace_started", false)
+                && traceApp.trackConf.getBoolean("is_gather_started", false)) {
             startRealTimeLoc(packInterval);
         } else {
             startRealTimeLoc(Constant.LOC_INTERVAL);
@@ -553,7 +552,7 @@ public class TraceFragment extends BaseFragment implements View.OnClickListener,
 
         // 在Android 6.0及以上系统，若定制手机使用到doze模式，请求将应用添加到白名单。
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            String packageName = trackApp.getPackageName();
+            String packageName = traceApp.getPackageName();
             boolean isIgnoring = powerManager.isIgnoringBatteryOptimizations(packageName);
             if (!isIgnoring) {
                 Intent intent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
