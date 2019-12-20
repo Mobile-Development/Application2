@@ -22,6 +22,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.dialog.DialogActivity"
+            android:theme="@style/dialog_style"></activity>
+        <activity
+            android:name=".data.HealthRecord"></activity>
+        <activity
+            android:name=".data.AthleticData"></activity>
     </application>
 
 </manifest>

@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/health_confirm"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:background="@color/green00"
+        android:drawableLeft="@drawable/ic_navigate_before_36dp"
+        android:drawablePadding="10.0dip"
+        android:gravity="center_vertical"
+        android:includeFontPadding="false"
+        android:paddingLeft="17.0dip"
+        android:text="完成"
+        android:textColor="#ffffff"
+        android:textSize="23sp" />
+    <View android:layout_height="2px" android:background="#26A69A" android:layout_width="fill_parent"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20.0dip"
+            android:layout_marginBottom="10.0dip"
+            android:gravity="center_vertical"
+            android:paddingLeft="30dp"
+            android:text="性别"
+            android:textColor="#ff888888"
+            android:textSize="24sp" />
+
+        <RadioGroup
+            android:id="@+id/radioSex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radioMale"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="18dp"
+                android:buttonTint="@color/green00"
+                android:checked="true"
+                android:text="男" />
+
+            <RadioButton
+                android:id="@+id/radioFemale"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:buttonTint="@color/green00"
+                android:text="女" />
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingLeft="30dp"
+            android:text="年龄(岁)"
+            android:textColor="#ff888888"
+            android:textSize="24sp" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <RelativeLayout
+                android:onClick="iv_1"
+                android:layout_gravity="center"
+                android:layout_weight="4"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/ic_navigate_before_24dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_gravity="center"
+                android:layout_weight="5"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+                <EditText
+                    android:id="@+id/health_text1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="1dp"
+                    android:paddingBottom="1dp"
+                    android:gravity="center"
+                    android:layout_centerInParent="true"
+                    android:text="1"
+                    android:textSize="22dp"
+                    android:digits="1234567890"
+                    android:inputType="number"
+                    android:maxLength="3"
+                    android:singleLine="true" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:onClick="iv_2"
+                android:layout_gravity="center"
+                android:layout_weight="4"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/ic_navigate_next_24dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20.0dip"
+            android:layout_marginBottom="20.0dip"
+            android:gravity="center_vertical"
+            android:paddingLeft="30dp"
+            android:text="身高(CM)"
+            android:textColor="#ff888888"
+            android:textSize="24sp" />
+
+        <EditText
+            android:id="@+id/health_text2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/custom_edittext_background"
+            android:gravity="center"
+            android:hint="178"
+            android:padding="8dp"
+            android:textSize="20sp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20.0dip"
+            android:layout_marginBottom="10.0dip"
+            android:gravity="center_vertical"
+            android:paddingLeft="30dp"
+            android:text="体重(KG)"
+            android:textColor="#ff888888"
+            android:textSize="24sp" />
+
+        <EditText
+            android:id="@+id/health_text3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/custom_edittext_background"
+            android:gravity="center"
+            android:padding="8dp"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20.0dip"
+            android:layout_marginBottom="10.0dip"
+            android:gravity="center_vertical"
+            android:paddingLeft="30dp"
+            android:text="静息心跳"
+            android:textColor="#ff888888"
+            android:textSize="24sp" />
+
+        <EditText
+            android:id="@+id/health_text4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/custom_edittext_background"
+            android:gravity="center"
+            android:padding="8dp"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+</LinearLayout>
