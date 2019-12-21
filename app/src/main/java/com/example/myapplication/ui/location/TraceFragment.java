@@ -21,11 +21,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.trace.api.entity.OnEntityListener;
+import com.baidu.trace.api.track.DistanceRequest;
+import com.baidu.trace.api.track.DistanceResponse;
 import com.baidu.trace.api.track.LatestPoint;
 import com.baidu.trace.api.track.LatestPointResponse;
 import com.baidu.trace.api.track.OnTrackListener;
@@ -61,6 +64,8 @@ public class TraceFragment extends BaseFragment implements View.OnClickListener,
     private ViewUtil viewUtil = null;
 
     private Button traceStartBtn = null;
+
+    private TextView textDistance = null;
 
     private PowerManager powerManager = null;
 
@@ -141,6 +146,8 @@ public class TraceFragment extends BaseFragment implements View.OnClickListener,
 //        traceFinishBtn.setOnClickListener(this);
          setTraceBtnStyle();
 //        setGatherBtnStyle();
+        textDistance = (TextView) view.findViewById(R.id.textDistance);
+
 
     }
 
@@ -315,8 +322,8 @@ public class TraceFragment extends BaseFragment implements View.OnClickListener,
     }
 
     private void initListener() {
-        trackListener = new OnTrackListener() {
 
+        trackListener = new OnTrackListener() {
             @Override
             public void onLatestPointCallback(LatestPointResponse response) {
                 //经过服务端纠偏后的最新的一个位置点，回调
@@ -358,6 +365,13 @@ public class TraceFragment extends BaseFragment implements View.OnClickListener,
                 }
 
 
+            }
+            // 里程回调
+            @Override
+            public void onDistanceCallback(DistanceResponse response) {
+                double distance = response.getDistance();//里程，单位：米
+                if(distance!=0)
+                textDistance.setText("您已步行 "+ distance+ "米。");
             }
         };
 
@@ -442,6 +456,8 @@ public class TraceFragment extends BaseFragment implements View.OnClickListener,
                     editor.putBoolean("is_gather_started", true);
                     editor.apply();
 //                    setGatherBtnStyle();
+                    traceApp.mClient.queryDistance(traceApp.distanceRequest,trackListener);
+
                     stopRealTimeLoc();
                     startRealTimeLoc(packInterval);
                 }

@@ -1,7 +1,6 @@
 package com.example.myapplication.ui.location;
 
 import android.app.Application;
-import android.app.Notification;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.DisplayMetrics;
@@ -11,8 +10,11 @@ import com.baidu.trace.LBSTraceClient;
 import com.baidu.trace.Trace;
 import com.baidu.trace.api.entity.LocRequest;
 import com.baidu.trace.api.entity.OnEntityListener;
+import com.baidu.trace.api.track.DistanceRequest;
+import com.baidu.trace.api.track.DistanceResponse;
 import com.baidu.trace.api.track.LatestPointRequest;
 import com.baidu.trace.api.track.OnTrackListener;
+import com.baidu.trace.api.track.SupplementMode;
 import com.baidu.trace.model.BaseRequest;
 import com.baidu.trace.model.OnCustomAttributeListener;
 import com.baidu.trace.model.ProcessOption;
@@ -24,9 +26,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-/**
- * Created by zhh
- */
 
 public class TraceApplication extends Application {
 
@@ -70,6 +69,8 @@ public class TraceApplication extends Application {
      */
     public boolean isGatherStarted = false;
 
+    public DistanceRequest distanceRequest =null;
+
     public static int screenWidth = 0;
 
     public static int screenHeight = 0;
@@ -89,10 +90,32 @@ public class TraceApplication extends Application {
         getScreenSize();
         mClient = new LBSTraceClient(mContext);
         mTrace = new Trace(serviceId, entityName);
-
+        DistanceRequest distanceRequest = new DistanceRequest(2, serviceId, entityName);
+        // 开始时间(单位：秒)
+        long startTime = System.currentTimeMillis() / 1000 - 12 * 60 * 60;
+        // 结束时间(单位：秒)
+        long endTime = System.currentTimeMillis() / 1000;
+        // 设置开始时间
+        distanceRequest.setStartTime(startTime);
+        // 设置结束时间
+        distanceRequest.setEndTime(endTime);
+        // 设置需要纠偏
+        distanceRequest.setProcessed(true);
+        // 创建纠偏选项实例
+        ProcessOption processOption = new ProcessOption();
+        // 设置需要去噪
+        processOption.setNeedDenoise(true);
+        // 设置需要绑路
+        processOption.setNeedMapMatch(true);
+        // 设置交通方式为走路
+        processOption.setTransportMode(TransportMode.walking);
+        // 设置纠偏选项
+        distanceRequest.setProcessOption(processOption);
+        // 设置里程填充方式为走路
+        distanceRequest.setSupplementMode(SupplementMode.walking);
+        // 初始化轨迹监听器
         trackConf = getSharedPreferences("track_conf", MODE_PRIVATE);
         locRequest = new LocRequest(serviceId);
-
         mClient.setOnCustomAttributeListener(new OnCustomAttributeListener() {
             @Override
             public Map<String, String> onTrackAttributeCallback() {
@@ -101,16 +124,13 @@ public class TraceApplication extends Application {
                 map.put("key2", "value2");
                 return map;
             }
-
             @Override
             public Map<String, String> onTrackAttributeCallback(long l) {
                 return null;
             }
         });
-
         clearTraceStatus();
     }
-
     /**
      * 获取当前位置
      */
