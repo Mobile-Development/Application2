@@ -17,6 +17,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.PowerManager;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,11 +28,11 @@ import android.widget.Toast;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.trace.api.entity.OnEntityListener;
-import com.baidu.trace.api.track.DistanceRequest;
 import com.baidu.trace.api.track.DistanceResponse;
 import com.baidu.trace.api.track.LatestPoint;
 import com.baidu.trace.api.track.LatestPointResponse;
 import com.baidu.trace.api.track.OnTrackListener;
+import com.baidu.trace.model.LocType;
 import com.baidu.trace.model.LocationMode;
 import com.baidu.trace.model.OnTraceListener;
 import com.baidu.trace.model.PushMessage;
@@ -51,6 +52,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.lifecycle.ViewModelProviders;
 
 import static android.content.Context.SENSOR_SERVICE;
 
@@ -59,11 +61,13 @@ import static android.content.Context.SENSOR_SERVICE;
  */
 public class TraceFragment extends BaseFragment implements View.OnClickListener, SensorEventListener {
 
+    private TraceViewModel traceViewModel = null;
+
     private TraceApplication traceApp = null;
 
     private ViewUtil viewUtil = null;
 
-    private Button traceStartBtn = null;
+    private Button traceStartBtn;
 
     private TextView textDistance = null;
 
@@ -120,10 +124,15 @@ public class TraceFragment extends BaseFragment implements View.OnClickListener,
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        traceViewModel =
+                ViewModelProviders.of(this).get(TraceViewModel.class);
         View view = inflater.inflate(R.layout.fragment_trace, container, false);
+        traceStartBtn = view.findViewById(R.id.buttonStart);
+        traceStartBtn.setText("收到");
         initView(view);
-        return inflater.inflate(R.layout.fragment_trace,container,false);
+        return inflater.inflate(R.layout.fragment_trace, container, false);
     }
+
     public void onCreate(Bundle savedInstanceState) {
         init();
         super.onCreate(savedInstanceState);
@@ -136,27 +145,40 @@ public class TraceFragment extends BaseFragment implements View.OnClickListener,
 //    }
 
     private void initView(View view) {
+        Log.i("zxc initView", "1");
         viewUtil = new ViewUtil();
         mapUtil = MapUtil.getInstance();
         mapUtil.init((MapView) view.findViewById(R.id.bmapView));
         mapUtil.setCenter(mCurrentDirection);//设置地图中心点
-        traceStartBtn = (Button) view.findViewById(R.id.buttonStart);
+        Log.i("zxc setCenter", "1");
+//        traceStartBtn = view.findViewById(R.id.buttonStart);
+
 //        traceFinishBtn = (Button) getActivity().findViewById(R.id.buttonFinish);
-        traceStartBtn.setOnClickListener(this);
+        traceStartBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("zxc onClick", "1");
+                onButtonClick(v);
+            }
+
+        });
 //        traceFinishBtn.setOnClickListener(this);
-         setTraceBtnStyle();
+        setTraceBtnStyle();
 //        setGatherBtnStyle();
-        textDistance = (TextView) view.findViewById(R.id.textDistance);
+        textDistance = view.findViewById(R.id.textDistance);
 
 
     }
 
-    private void init(){
+    private void init() {
+        Log.i("zxc init", "1");
         traceApp = (TraceApplication) getActivity().getApplicationContext();
+        Log.i("zxc traceApp", "1");
         trackPoints = new ArrayList<>();
         initListener();
         powerManager = (PowerManager) traceApp.getSystemService(Context.POWER_SERVICE);
         mSensorManager = (SensorManager) traceApp.getSystemService(SENSOR_SERVICE);// 获取传感器管理服务
+        Log.i("zxc getService", "1");
     }
 
     @Override
@@ -178,25 +200,17 @@ public class TraceFragment extends BaseFragment implements View.OnClickListener,
 
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            // 追踪选项设置
-//            case R.id.btn_activity_options:
-//                ViewUtil.startActivityForResult(this, TracingOptionsActivity.class, Constant
-//                        .REQUEST_CODE);
-//                break;
+    public void onButtonClick(View view) {
+        Log.i("zxc onClick", String.valueOf(view.getId()));
+        if (traceApp.isTraceStarted) {
+            traceApp.mClient.stopGather(traceListener);
+            traceApp.mClient.stopTrace(traceApp.mTrace, traceListener);//停止服务
+        } else {
+            traceApp.mClient.setInterval(Constant.DEFAULT_GATHER_INTERVAL, packInterval);
+            traceApp.mClient.startGather(traceListener);//开启采集
+            traceApp.mClient.startTrace(traceApp.mTrace, traceListener);//开始服务
+        }
 
-            case R.id.buttonStart:
-                if (traceApp.isTraceStarted) {
-                    traceApp.mClient.stopGather(traceListener);
-                    traceApp.mClient.stopTrace(traceApp.mTrace, traceListener);//停止服务
-                } else {
-                    traceApp.mClient.setInterval(Constant.DEFAULT_GATHER_INTERVAL, packInterval);
-                    traceApp.mClient.startGather(traceListener);//开启采集
-                    traceApp.mClient.startTrace(traceApp.mTrace, traceListener);//开始服务
-                }
-                break;
 //
 //            case R.id.btn_gather:
 //                if (trackApp.isGatherStarted) {
@@ -207,11 +221,10 @@ public class TraceFragment extends BaseFragment implements View.OnClickListener,
 //                }
 //                break;
 
-            default:
-                break;
-        }
 
     }
+
+
 
     /**
      * 设置服务按钮样式
@@ -240,6 +253,11 @@ public class TraceFragment extends BaseFragment implements View.OnClickListener,
                         R.mipmap.bg_btn_cancel, null));
             }
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+
     }
 
     /**
@@ -340,6 +358,7 @@ public class TraceFragment extends BaseFragment implements View.OnClickListener,
 
                     LatLng currentLatLng = MapUtil.convertTrace2Map(point.getLocation());
                     if (currentLatLng == null) {
+                        Log.e("zxc currentLoc","找不到");
                         return;
                     }
 
@@ -358,9 +377,11 @@ public class TraceFragment extends BaseFragment implements View.OnClickListener,
                         return;
                     }
                     trackPoints.add(currentLatLng);
+                    Log.d("zxc currentLoaction",String.valueOf(CurrentLocation.latitude));
 
                     mapUtil.drawHistoryTrack(trackPoints, false, mCurrentDirection);//时时动态的画出运动轨迹
                 } catch (Exception x) {
+                    Log.e("zxc currentLocation","莫得");
 
                 }
 
@@ -372,6 +393,9 @@ public class TraceFragment extends BaseFragment implements View.OnClickListener,
                 double distance = response.getDistance();//里程，单位：米
                 if(distance!=0)
                 textDistance.setText("您已步行 "+ distance+ "米。");
+                else {
+                    textDistance.setText("记路尚未开始。");
+                }
             }
         };
 
@@ -381,17 +405,27 @@ public class TraceFragment extends BaseFragment implements View.OnClickListener,
             public void onReceiveLocation(TraceLocation location) {
                 //本地LBSTraceClient客户端获取的位置
                 try {
-                    if (StatusCodes.SUCCESS != location.getStatus() || CommonUtil.isZeroPoint(location.getLatitude(),
-                            location.getLongitude())) {
+                    if (
+                            StatusCodes.SUCCESS != location.getStatus() &&
+                             CommonUtil.isZeroPoint(location.getLatitude(),
+                            location.getLongitude()))
+                    {
+                        Log.i("zxc entityLi getcuLoc","false");
+                        //获取定位类型、定位错误返回码
+                        LocType errorCode = location.getLocType();
+                        Log.i("zxc entityLi LocType",String.valueOf(errorCode));
                         return;
                     }
-                    LatLng currentLatLng = mapUtil.convertTraceLocation2Map(location);
+                    Log.i("zxc entityLi getcuLoc","true");
+                    LatLng currentLatLng = MapUtil.convertTraceLocation2Map(location);
                     if (null == currentLatLng) {
+                        Log.i("zxc entityLi getcuLoc","没");
                         return;
                     }
                     CurrentLocation.locTime = CommonUtil.toTimeStamp(location.getTime());
                     CurrentLocation.latitude = currentLatLng.latitude;
                     CurrentLocation.longitude = currentLatLng.longitude;
+                    Log.i("zxc entityLi getcuLoc","有");
 
                     if (null != mapUtil) {
                         mapUtil.updateMapLocation(currentLatLng, mCurrentDirection);//显示当前位置

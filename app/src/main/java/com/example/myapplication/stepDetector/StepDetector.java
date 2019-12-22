@@ -92,7 +92,7 @@ public class StepDetector implements SensorEventListener {
         //同步块
         synchronized (this) {
             //获取加速度传感器
-            if (sensor.getType() == sensor.TYPE_ACCELEROMETER) {
+            if (sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
                 calc_step(event);
             }
         }
@@ -231,7 +231,7 @@ public class StepDetector implements SensorEventListener {
      * @param n
      * @return
      */
-    public float averageValue(float value[], int n) {
+    public float averageValue(float[] value, int n) {
         float ave = 0;
         for (int i = 0; i < n; i++) {
             ave += value[i];

@@ -32,7 +32,7 @@ public class ViewUtil {
             mToast = new Toast(activity);
             mToast.setView(toastRoot);
             mToast.setDuration(Toast.LENGTH_SHORT);
-            mTextView = (TextView) toastRoot.findViewById(R.id.tv_toast_info);
+            mTextView = toastRoot.findViewById(R.id.tv_toast_info);
             mTextView.setText(Html.fromHtml(strBuilder.toString()));
         } else {
             mTextView.setText(Html.fromHtml(strBuilder.toString()));

@@ -1,6 +1,7 @@
 package com.example.myapplication.utils;
 
 import android.graphics.Color;
+import android.util.Log;
 
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.MapStatus;
@@ -163,8 +164,10 @@ public class MapUtil {
             LatLng currentLatLng = new LatLng(CurrentLocation.latitude, CurrentLocation.longitude);
             updateMapLocation(currentLatLng, direction);
             animateMapStatus(currentLatLng);
+            Log.i("setCenter","find");
             return;
         }
+        Log.i("setCenter","not find");
     }
 
     public void updateMapLocation(LatLng currentPoint, float direction) {

@@ -140,7 +140,7 @@ public class DateUtil {
             i %= 60;
         }
         int k = paramInt % 60;
-        return String.format("%02d:%02d", new Object[]{Integer.valueOf(i), Integer.valueOf(k)});
+        return String.format("%02d:%02d", Integer.valueOf(i), Integer.valueOf(k));
     }
 
     public static String getTimestampStr() {

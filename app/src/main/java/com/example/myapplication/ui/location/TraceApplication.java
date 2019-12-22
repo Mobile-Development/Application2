@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.trace.LBSTraceClient;
@@ -78,8 +79,10 @@ public class TraceApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Log.i("zxc traceAPP onCreate","1");
         mContext = getApplicationContext();
         entityName = CommonUtil.getImei(this);
+
 
         // 若为创建独立进程，则不初始化成员变量
         if ("com.baidu.track:remote".equals(CommonUtil.getCurProcessName(mContext))) {
@@ -138,9 +141,9 @@ public class TraceApplication extends Application {
         // 网络连接正常，开启服务及采集，则查询纠偏后实时位置；否则进行实时定位
         if (NetUtil.isNetworkAvailable(mContext)
                 && trackConf.contains("is_trace_started")
-                && trackConf.contains("is_gather_started")
-                && trackConf.getBoolean("is_trace_started", false)
-                && trackConf.getBoolean("is_gather_started", false)) {
+                && trackConf.getBoolean("is_trace_started", false))
+        {
+            Log.i("zxc traceAPP getcuLoc","true");
             LatestPointRequest request = new LatestPointRequest(getTag(), serviceId, entityName);
             ProcessOption processOption = new ProcessOption();
             processOption.setRadiusThreshold(50);
@@ -150,6 +153,7 @@ public class TraceApplication extends Application {
             request.setProcessOption(processOption);
             mClient.queryLatestPoint(request, trackListener);
         } else {
+            Log.i("zxc traceAPP getcuLoc","实时");
             mClient.queryRealTimeLoc(locRequest, entityListener);
         }
     }
