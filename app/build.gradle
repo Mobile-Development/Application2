@@ -5,12 +5,20 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
-        applicationId "com.example.myapplication"
+        applicationId = "com.example.myapplication"
         minSdkVersion 15
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        splits {
+            abi {
+                enable true
+                reset()
+                include 'x86', 'armeabi-v7a','x86_64'
+                universalApk true
+            }
+        }
     }
     buildTypes {
         release {
@@ -18,11 +26,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets {
+        main {
+            jniLibs.srcDir 'libs'
+        }
+    }
 }
 greendao {
 
     //数据库的版本号
-    schemaVersion 2;
+    schemaVersion 2
     //生成的Daos、DaoMaster路径，选择生成在自己的实体类文件下
     daoPackage "com.example.myapplication.Greendao.gen"
     //生成的资源路径，默认存放在build中
@@ -48,4 +61,11 @@ dependencies {
     implementation 'androidx.annotation:annotation:1.0.2'
     testImplementation 'junit:junit:4.12'
     implementation 'com.android.support:recyclerview-v7:28.0.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    implementation files('libs/BaiduLBS_Android.jar')
+    implementation files('libs/BaiduTraceSDK_v3_1_4.jar')
+    implementation files('libs/okhttp-3.8.1.jar')
+    implementation files('libs/okio-1.13.0.jar')
+    implementation files('libs/bos-android-sdk-1.0.3.jar')
 }
