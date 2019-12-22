@@ -44,7 +44,7 @@ import com.example.myapplication.utils.CommonUtil;
 import com.example.myapplication.utils.CurrentLocation;
 import com.example.myapplication.utils.MapUtil;
 import com.example.myapplication.utils.TrackReceiver;
-import com.example.myapplication.utils.ViewUtil;
+//import com.example.myapplication.utils.ViewUtil;
 
 
 import java.util.ArrayList;
@@ -65,7 +65,7 @@ public class TraceFragment extends BaseFragment implements View.OnClickListener,
 
     private TraceApplication traceApp = null;
 
-    private ViewUtil viewUtil = null;
+//    private ViewUtil viewUtil = null;
 
     private Button traceStartBtn;
 
@@ -127,13 +127,12 @@ public class TraceFragment extends BaseFragment implements View.OnClickListener,
         traceViewModel =
                 ViewModelProviders.of(this).get(TraceViewModel.class);
         View view = inflater.inflate(R.layout.fragment_trace, container, false);
-        traceStartBtn = view.findViewById(R.id.buttonStart);
-        traceStartBtn.setText("收到");
         initView(view);
         return inflater.inflate(R.layout.fragment_trace, container, false);
     }
 
     public void onCreate(Bundle savedInstanceState) {
+        Log.e("onCreate","asd");
         init();
         super.onCreate(savedInstanceState);
     }
@@ -146,11 +145,13 @@ public class TraceFragment extends BaseFragment implements View.OnClickListener,
 
     private void initView(View view) {
         Log.i("zxc initView", "1");
-        viewUtil = new ViewUtil();
+//        viewUtil = new ViewUtil();
         mapUtil = MapUtil.getInstance();
         mapUtil.init((MapView) view.findViewById(R.id.bmapView));
         mapUtil.setCenter(mCurrentDirection);//设置地图中心点
         Log.i("zxc setCenter", "1");
+        traceStartBtn = view.findViewById(R.id.buttonStart);
+        traceStartBtn.setText("收到");
 //        traceStartBtn = view.findViewById(R.id.buttonStart);
 
 //        traceFinishBtn = (Button) getActivity().findViewById(R.id.buttonFinish);
@@ -166,19 +167,15 @@ public class TraceFragment extends BaseFragment implements View.OnClickListener,
         setTraceBtnStyle();
 //        setGatherBtnStyle();
         textDistance = view.findViewById(R.id.textDistance);
-
-
     }
 
     private void init() {
         Log.i("zxc init", "1");
         traceApp = (TraceApplication) getActivity().getApplicationContext();
-        Log.i("zxc traceApp", "1");
         trackPoints = new ArrayList<>();
         initListener();
         powerManager = (PowerManager) traceApp.getSystemService(Context.POWER_SERVICE);
         mSensorManager = (SensorManager) traceApp.getSystemService(SENSOR_SERVICE);// 获取传感器管理服务
-        Log.i("zxc getService", "1");
     }
 
     @Override
@@ -220,11 +217,7 @@ public class TraceFragment extends BaseFragment implements View.OnClickListener,
 //                    trackApp.mClient.startGather(traceListener);//开启采集
 //                }
 //                break;
-
-
     }
-
-
 
     /**
      * 设置服务按钮样式
@@ -445,8 +438,8 @@ public class TraceFragment extends BaseFragment implements View.OnClickListener,
 
             @Override
             public void onBindServiceCallback(int errorNo, String message) {
-                viewUtil.showToast(getActivity(),
-                        String.format("onBindServiceCallback, errorNo:%d, message:%s ", errorNo, message));
+//                viewUtil.showToast(getActivity(),
+//                        String.format("onBindServiceCallback, errorNo:%d, message:%s ", errorNo, message));
             }
 
             @Override
@@ -459,8 +452,8 @@ public class TraceFragment extends BaseFragment implements View.OnClickListener,
                     setTraceBtnStyle();
                     registerReceiver();
                 }
-                viewUtil.showToast(getActivity(),
-                        String.format("onStartTraceCallback, errorNo:%d, message:%s ", errorNo, message));
+//                viewUtil.showToast(getActivity(),
+//                        String.format("onStartTraceCallback, errorNo:%d, message:%s ", errorNo, message));
             }
 
             @Override
@@ -478,8 +471,8 @@ public class TraceFragment extends BaseFragment implements View.OnClickListener,
                     unregisterPowerReceiver();
                     firstLocate = true;
                 }
-                viewUtil.showToast(getActivity(),
-                        String.format("onStopTraceCallback, errorNo:%d, message:%s ", errorNo, message));
+//                viewUtil.showToast(getActivity(),
+//                        String.format("onStopTraceCallback, errorNo:%d, message:%s ", errorNo, message));
             }
 
             @Override
@@ -495,8 +488,8 @@ public class TraceFragment extends BaseFragment implements View.OnClickListener,
                     stopRealTimeLoc();
                     startRealTimeLoc(packInterval);
                 }
-                viewUtil.showToast(getActivity(),
-                        String.format("onStartGatherCallback, errorNo:%d, message:%s ", errorNo, message));
+//                viewUtil.showToast(getActivity(),
+//                        String.format("onStartGatherCallback, errorNo:%d, message:%s ", errorNo, message));
             }
 
             @SuppressLint("DefaultLocale")
@@ -519,8 +512,8 @@ public class TraceFragment extends BaseFragment implements View.OnClickListener,
                     }
 
                 }
-                viewUtil.showToast(getActivity(),
-                        String.format("onStopGatherCallback, errorNo:%d, message:%s ", errorNo, message));
+//                viewUtil.showToast(getActivity(),
+//                        String.format("onStopGatherCallback, errorNo:%d, message:%s ", errorNo, message));
             }
 
             @Override
