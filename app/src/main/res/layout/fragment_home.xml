@@ -40,14 +40,10 @@
             android:textColor="@color/green01"
             android:textSize="30dp" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="1" />
-
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/home_layout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/LinearLayout1"
@@ -73,6 +69,16 @@
             android:textColor="@color/green06"
             android:textSize="24sp" />
     </LinearLayout>
+
+        <com.db.chart.view.LineChartView
+            android:id="@+id/lineChart"
+            android:layout_width="fill_parent"
+            android:layout_height="200dp"
+            android:layout_below="@+id/home_layout1"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginRight="20dp"
+            app:chart_axisColor="#30547d99" />
     </RelativeLayout>
 
 

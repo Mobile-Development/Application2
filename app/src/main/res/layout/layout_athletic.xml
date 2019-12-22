@@ -2,7 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/green00">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
     <TextView
         android:id="@+id/athletic_confirm"
         android:layout_width="fill_parent"
@@ -16,15 +25,97 @@
         android:text="完成"
         android:textColor="#ffffff"
         android:textSize="23sp" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="right"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/athletic_marker"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:drawablePadding="10.0dip"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:paddingRight="17.0dip"
+                android:text="运动能力"
+                android:textColor="#ffffff"
+                android:textSize="23sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="right"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/athletic_confirm2"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:drawableRight="@drawable/ic_navigate_next_36dp"
+                android:drawablePadding="10.0dip"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:paddingRight="17.0dip"
+                android:text="Next"
+                android:textColor="#ffffff"
+                android:textSize="23sp" />
+        </LinearLayout>
+    </LinearLayout>
+
     <View android:layout_height="2px" android:background="#26A69A" android:layout_width="fill_parent"/>
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="80dp"
-        android:gravity="center"
-        android:text="运动能力"
-        android:textColor="#ff888888"
-        android:textSize="30sp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dip"
+            android:layout_marginBottom="10.0dip"
+            android:gravity="center_vertical"
+            android:paddingLeft="30dp"
+            android:text="运动目的："
+            android:textColor="#ff888888"
+            android:textSize="24sp" />
+
+        <RadioGroup
+            android:id="@+id/radioSex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="18dp"
+                android:buttonTint="@color/green00"
+                android:checked="true"
+                android:text="燃脂" />
+
+            <RadioButton
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:buttonTint="@color/green00"
+                android:text="塑性" />
+
+            <RadioButton
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:buttonTint="@color/green00"
+                android:text="增肌" />
+
+        </RadioGroup>
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

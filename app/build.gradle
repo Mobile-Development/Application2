@@ -35,6 +35,8 @@ dependencies {
     implementation 'com.necer.ncalendar:ncalendar:4.3.8'
     implementation 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.3.0'
     implementation 'com.nightonke:boommenu:2.1.1'
+    implementation 'com.github.open-android:WilliamChart:v2.4.0'
+    implementation 'com.mcxiaoke.volley:library:1.0.19'
     implementation 'org.greenrobot:greendao:3.2.2' // add library
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'com.google.android.material:material:1.0.0'

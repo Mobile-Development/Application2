@@ -3,20 +3,71 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/green00">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/health_confirm"
-        android:layout_width="fill_parent"
-        android:layout_height="60dp"
-        android:background="@color/green00"
-        android:drawableLeft="@drawable/ic_navigate_before_36dp"
-        android:drawablePadding="10.0dip"
-        android:gravity="center_vertical"
-        android:includeFontPadding="false"
-        android:paddingLeft="17.0dip"
-        android:text="完成"
-        android:textColor="#ffffff"
-        android:textSize="23sp" />
+            <TextView
+                android:id="@+id/health_confirm"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:drawableLeft="@drawable/ic_navigate_before_36dp"
+                android:drawablePadding="10.0dip"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:paddingLeft="17.0dip"
+                android:text="完成"
+                android:textColor="#ffffff"
+                android:textSize="23sp" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="right"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/health_marker"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:drawablePadding="10.0dip"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:paddingRight="17.0dip"
+                android:text="健康档案"
+                android:textColor="#ffffff"
+                android:textSize="23sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="right"
+            android:layout_weight="1">
+        <TextView
+            android:id="@+id/health_confirm2"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:drawableRight="@drawable/ic_navigate_next_36dp"
+            android:drawablePadding="10.0dip"
+            android:gravity="center_vertical"
+            android:includeFontPadding="false"
+            android:paddingRight="17.0dip"
+            android:text="Next"
+            android:textColor="#ffffff"
+            android:textSize="23sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
     <View android:layout_height="2px" android:background="#26A69A" android:layout_width="fill_parent"/>
 
     <LinearLayout
