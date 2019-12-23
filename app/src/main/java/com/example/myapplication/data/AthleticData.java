@@ -12,17 +12,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.myapplication.R;
 
 public class AthleticData extends AppCompatActivity {
-    private TextView confirm_button;
-    private TextView confirm_button2;
-    private TextView marker;
+//    private TextView confirm_button;
+//    private TextView confirm_button2;
+//    private TextView marker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_health);
+        setContentView(R.layout.layout_athletic);
         getSupportActionBar().hide();
-        confirm_button = findViewById(R.id.health_confirm);
-        confirm_button2 = findViewById(R.id.health_confirm2);
+        TextView confirm_button;
+        TextView confirm_button2;
+        TextView marker;
+        confirm_button = findViewById(R.id.athletic_confirm);
+        confirm_button2 = findViewById(R.id.athletic_confirm2);
         marker = findViewById(R.id.athletic_marker);
         confirm_button.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -31,9 +34,16 @@ public class AthleticData extends AppCompatActivity {
                 finish();
             }
         });
-        msetvisible();
+        confirm_button2.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                //Toast.makeText(AthleticData.this, text2.getText().toString(), Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
+        msetvisible(confirm_button, confirm_button2);
     }
-    private void msetvisible(){
+    private void msetvisible(TextView confirm_button, TextView confirm_button2){
         Intent intent = getIntent();
         boolean flag = intent.getBooleanExtra("flag",true);
         if(flag){

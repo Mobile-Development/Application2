@@ -55,12 +55,11 @@
                 android:id="@+id/athletic_confirm2"
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"
-                android:drawableRight="@drawable/ic_navigate_next_36dp"
                 android:drawablePadding="10.0dip"
                 android:gravity="center_vertical"
                 android:includeFontPadding="false"
                 android:paddingRight="17.0dip"
-                android:text="Next"
+                android:text="Done"
                 android:textColor="#ffffff"
                 android:textSize="23sp" />
         </LinearLayout>
@@ -137,7 +136,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <RelativeLayout
-                android:onClick="iv_1"
                 android:layout_gravity="center"
                 android:layout_weight="4"
                 android:layout_width="0dp"
@@ -171,7 +169,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:onClick="iv_2"
+
                 android:layout_gravity="center"
                 android:layout_weight="4"
                 android:layout_width="0dp"
@@ -206,7 +204,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <RelativeLayout
-                android:onClick="iv_1"
+
                 android:layout_gravity="center"
                 android:layout_weight="4"
                 android:layout_width="0dp"
@@ -240,7 +238,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:onClick="iv_2"
+
                 android:layout_gravity="center"
                 android:layout_weight="4"
                 android:layout_width="0dp"
@@ -276,7 +274,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <RelativeLayout
-                android:onClick="iv_1"
+
                 android:layout_gravity="center"
                 android:layout_weight="4"
                 android:layout_width="0dp"
@@ -310,7 +308,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:onClick="iv_2"
+
                 android:layout_gravity="center"
                 android:layout_weight="4"
                 android:layout_width="0dp"

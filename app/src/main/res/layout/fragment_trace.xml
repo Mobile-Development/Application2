@@ -1,21 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="600dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <RelativeLayout
-        android:id="@+id/relative1"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        >
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/test"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="返回"
+            android:textSize="20dp"
+            android:textColor="@android:color/black"
+            android:layout_weight="3"/>
+
+    <RelativeLayout
+        android:id="@+id/relative1"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
         <com.baidu.mapapi.map.MapView
             android:id="@+id/bmapView"
             android:layout_width="match_parent"
             android:layout_height="200pt"
             android:clickable="true"
-            android:focusable="true" >
-        </com.baidu.mapapi.map.MapView>
+            android:focusable="true"></com.baidu.mapapi.map.MapView>
+
         <TextView
             android:id="@+id/textDistance"
             android:layout_width="wrap_content"
@@ -24,10 +38,7 @@
             android:layout_centerInParent="true"
             android:layout_marginTop="0dip"
             android:text="记路尚未开始。"
-            android:textColor="@android:color/black"
-            />
-
-
+            android:textColor="@android:color/black" />
 
 
         <RelativeLayout
@@ -35,38 +46,38 @@
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:layout_alignParentBottom="true"
-            android:visibility="gone"
-            android:background="@android:color/white">
+            android:background="@android:color/white"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:textColor="@android:color/black"
-                android:text="GPS信号连接中，请稍后..." />
+                android:text="GPS信号连接中，请稍后..."
+                android:textColor="@android:color/black" />
 
             <ProgressBar
                 android:id="@+id/progressBar"
                 android:layout_width="wrap_content"
-                android:paddingLeft="20dp"
-                android:layout_centerVertical="true"
-                android:paddingRight="10dp"
-                android:layout_toLeftOf="@id/info"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@id/info"
+                android:layout_toLeftOf="@id/info"
                 android:paddingStart="20dp"
+                android:paddingLeft="20dp"
                 android:paddingEnd="10dp"
-                android:layout_toStartOf="@id/info" />
+                android:paddingRight="10dp" />
         </RelativeLayout>
+
+
+    </RelativeLayout>
         <Button
             android:id="@+id/buttonStart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            android:text="开始记路"
-            app:layout_constraintTop_toBottomOf="@+id/bmapView" />
-    </RelativeLayout>
-
-
+            android:layout_weight="3"
+            android:text="开始记路"/>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

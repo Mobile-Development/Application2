@@ -20,6 +20,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.myapplication.R;
+import com.example.myapplication.constant.HealthData;
 import com.example.myapplication.data.AthleticData;
 import com.example.myapplication.data.HealthRecord;
 
@@ -47,10 +48,18 @@ public class SettingFragment extends Fragment {
         setListener();
 
         final ArrayList<ArcProgressStackView.Model> models = new ArrayList<>();
-        models.add(new ArcProgressStackView.Model("Circle", 25, Color.parseColor("#DCDCDC"), Color.parseColor("#26A69A")));
-        models.add(new ArcProgressStackView.Model("Progress", 50, Color.parseColor("#C0C0C0"), Color.parseColor("#0088FF")));
-        models.add(new ArcProgressStackView.Model("Stack", 75, Color.parseColor("#D3D3D3"), Color.parseColor("#26A69A")));
-        models.add(new ArcProgressStackView.Model("View", 100, Color.parseColor("#A9A9A9"), Color.parseColor("#0088FF")));
+        float bmi = HealthData.body_weight/((HealthData.body_height/100) * (HealthData.body_height/100));
+        Double Dpbf = (1.2*bmi + 0.23*HealthData.age - 5.4 - 10.8*HealthData.Male);
+        //float pbf = Dpbf.floatValue();
+        //BMR = 655 + (9.6 x 体重kg) + (1.8 x 身高cm) - (4.7 x 年龄)
+        //BMR = 66 + (13.7 x 体重kg) + (5 x 身高cm) - (6.8 x 年龄)
+        Double Dbmr = (655 + (9.6*HealthData.body_weight) + 1.8*HealthData.body_height/100 - 4.7*HealthData.age) * HealthData.Male +
+                (66 + (13.7*HealthData.body_weight) + 5*HealthData.body_height/100 - 6.8*HealthData.age) * HealthData.Female;
+        float bmr = Dbmr.floatValue()/2000;
+        models.add(new ArcProgressStackView.Model("BMI", Math.round(bmi), Color.parseColor("#DCDCDC"), Color.parseColor("#26A69A")));
+        models.add(new ArcProgressStackView.Model("PBF", Dpbf.intValue(), Color.parseColor("#C0C0C0"), Color.parseColor("#0088FF")));
+        models.add(new ArcProgressStackView.Model("BMR", bmr, Color.parseColor("#D3D3D3"), Color.parseColor("#26A69A")));
+        models.add(new ArcProgressStackView.Model("HR", HealthData.body_HR, Color.parseColor("#A9A9A9"), Color.parseColor("#0088FF")));
 
         final ArcProgressStackView arcProgressStackView = (ArcProgressStackView) root.findViewById(R.id.apsv);
         arcProgressStackView.setModels(models);
