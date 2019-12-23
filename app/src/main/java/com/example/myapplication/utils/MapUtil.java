@@ -15,6 +15,7 @@ import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.Overlay;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.PolylineOptions;
+import com.baidu.mapapi.map.TextureMapView;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.model.LatLngBounds;
 import com.baidu.mapapi.utils.CoordinateConverter;
@@ -39,7 +40,7 @@ public class MapUtil {
 
     private Marker mMoveMarker = null;
 
-    public MapView mapView = null;
+    public TextureMapView mapView = null;
 
     public BaiduMap baiduMap = null;
 
@@ -61,7 +62,7 @@ public class MapUtil {
         return INSTANCE;
     }
 
-    public void init(MapView view) {
+    public void init(TextureMapView view) {
         mapView = view;
         baiduMap = mapView.getMap();
         mapView.showZoomControls(false);

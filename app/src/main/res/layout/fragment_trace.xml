@@ -22,13 +22,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center">
-
-        <com.baidu.mapapi.map.MapView
+        <com.baidu.mapapi.map.TextureMapView
             android:id="@+id/bmapView"
             android:layout_width="match_parent"
             android:layout_height="200pt"
             android:clickable="true"
-            android:focusable="true"></com.baidu.mapapi.map.MapView>
+            android:focusable="true" >
+        </com.baidu.mapapi.map.TextureMapView>
 
         <TextView
             android:id="@+id/textDistance"

@@ -21,11 +21,6 @@ public abstract class BaseFragment extends Fragment {
     /**
      * 获取布局文件ID
      */
-
-
-    /**
-     * 获取布局文件ID
-     */
     public abstract int getContentViewId();
 
     /**

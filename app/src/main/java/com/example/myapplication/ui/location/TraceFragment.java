@@ -25,7 +25,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.TextureMapView;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.trace.api.entity.OnEntityListener;
 import com.baidu.trace.api.track.DistanceResponse;
@@ -156,7 +156,7 @@ public class TraceFragment extends BaseFragment implements View.OnClickListener,
         Log.i("zxc initView", "1");
         viewUtil = new ViewUtil();
         mapUtil = MapUtil.getInstance();
-        mapUtil.init((MapView) view.findViewById(R.id.bmapView));
+        mapUtil.init((TextureMapView) view.findViewById(R.id.bmapView));
         mapUtil.setCenter(mCurrentDirection);//设置地图中心点
         Log.i("zxc setCenter", "1");
 //        traceStartBtn = view.findViewById(R.id.buttonStart);
@@ -344,7 +344,6 @@ public class TraceFragment extends BaseFragment implements View.OnClickListener,
             TraceFragment.this.packInterval = packInterval;
             traceApp.mClient.setInterval(gatherInterval, packInterval);//设置频率
         }
-
     }
 
     private void initListener() {
@@ -357,7 +356,6 @@ public class TraceFragment extends BaseFragment implements View.OnClickListener,
                     if (StatusCodes.SUCCESS != response.getStatus()) {
                         return;
                     }
-
                     LatestPoint point = response.getLatestPoint();
                     if (null == point || CommonUtil.isZeroPoint(point.getLocation().getLatitude(), point.getLocation()
                             .getLongitude())) {
@@ -366,6 +364,7 @@ public class TraceFragment extends BaseFragment implements View.OnClickListener,
 
                     LatLng currentLatLng = MapUtil.convertTrace2Map(point.getLocation());
                     if (currentLatLng == null) {
+                        currentLatLng =new LatLng(31.28915608,121.20935632);
                         Log.e("zxc currentLoc","找不到");
                         return;
                     }
