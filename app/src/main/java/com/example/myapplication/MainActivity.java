@@ -48,25 +48,25 @@ public class MainActivity extends AppCompatActivity {
         UserInfo userInfo = DBHelper.getUserInfo();
         if(userInfo == null){
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            startActivityForResult(intent,0);
-            //startActivity(intent);
+            //startActivityForResult(intent,0);
+            startActivity(intent);
         }
 
     }
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        //Integer time = Integer.parseInt(data.getStringExtra("data"));
-        boolean flag = data.getBooleanExtra("LorR",false);
-        //returnValue = data.getBooleanExtra("LorR",true);
-        if(flag){
-            //emmmm
-        }
-        else{
-            Log.i("test", "register");
-            Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
-            startActivity(intent);
-        }
-    }
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        //Integer time = Integer.parseInt(data.getStringExtra("data"));
+//        boolean flag = data.getBooleanExtra("LorR",false);
+//        //returnValue = data.getBooleanExtra("LorR",true);
+//        if(flag){
+//            //emmmm
+//        }
+//        else{
+//            Log.i("test", "register");
+//            Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+//            startActivity(intent);
+//        }
+//    }
 
 }

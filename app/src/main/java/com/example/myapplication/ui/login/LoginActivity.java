@@ -61,11 +61,11 @@ public class LoginActivity extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent register_intent = new Intent(MainActivity.this, RegisterActivity.class);
-//                startActivity(register_intent);
-                Intent i = new Intent();
-                i.putExtra("LorR", false);
-                setResult(1, i);
+                Intent register_intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(register_intent);
+//                Intent i = new Intent();
+//                i.putExtra("LorR", false);
+//                setResult(1, i);
                 finish();
             }
         });

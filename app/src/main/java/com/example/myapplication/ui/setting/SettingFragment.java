@@ -58,7 +58,7 @@ public class SettingFragment extends Fragment {
         float bmr = Dbmr.floatValue()/2000;
         models.add(new ArcProgressStackView.Model("BMI", Math.round(bmi), Color.parseColor("#DCDCDC"), Color.parseColor("#26A69A")));
         models.add(new ArcProgressStackView.Model("PBF", Dpbf.intValue(), Color.parseColor("#C0C0C0"), Color.parseColor("#0088FF")));
-        models.add(new ArcProgressStackView.Model("BMR", bmr, Color.parseColor("#D3D3D3"), Color.parseColor("#26A69A")));
+        models.add(new ArcProgressStackView.Model("BMR", Dbmr.intValue(), Color.parseColor("#D3D3D3"), Color.parseColor("#26A69A")));
         models.add(new ArcProgressStackView.Model("HR", HealthData.body_HR, Color.parseColor("#A9A9A9"), Color.parseColor("#0088FF")));
 
         final ArcProgressStackView arcProgressStackView = (ArcProgressStackView) root.findViewById(R.id.apsv);
