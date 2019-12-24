@@ -29,7 +29,6 @@ import static com.example.myapplication.utils.BitmapUtil.bmStart;
 
 /**
  * 地图工具类
- * Created by zhh .
  */
 
 public class MapUtil {

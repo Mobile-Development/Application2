@@ -56,7 +56,7 @@ public class TraceApplication extends Application {
     /**
      * Entity标识
      */
-    public String entityName = "myTrace1";
+    public String entityName = "myTrace";
 
     public boolean isRegisterReceiver = false;
 

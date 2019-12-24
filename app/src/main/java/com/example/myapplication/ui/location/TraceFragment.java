@@ -127,7 +127,6 @@ public class TraceFragment extends BaseFragment implements View.OnClickListener,
         traceViewModel =
                 ViewModelProviders.of(this).get(TraceViewModel.class);
         View view = inflater.inflate(R.layout.fragment_trace, container, false);
-
         traceStartBtn = view.findViewById(R.id.buttonStart);
         test = view.findViewById(R.id.test);
         test.setOnClickListener(new View.OnClickListener() {
@@ -137,6 +136,8 @@ public class TraceFragment extends BaseFragment implements View.OnClickListener,
             }
         });
         //traceStartBtn.setText("收到");
+        traceStartBtn = view.findViewById(R.id.buttonStart);
+        traceStartBtn.setText("收到");
         initView(view);
         return inflater.inflate(R.layout.fragment_trace, container, false);
     }
@@ -488,7 +489,6 @@ public class TraceFragment extends BaseFragment implements View.OnClickListener,
                 viewUtil.showToast(getActivity(),
                         String.format("onStopTraceCallback, errorNo:%d, message:%s ", errorNo, message));
             }
-
             @Override
             public void onStartGatherCallback(int errorNo, String message) {
                 if (StatusCodes.SUCCESS == errorNo || StatusCodes.GATHER_STARTED == errorNo) {
@@ -505,7 +505,6 @@ public class TraceFragment extends BaseFragment implements View.OnClickListener,
                 viewUtil.showToast(getActivity(),
                         String.format("onStartGatherCallback, errorNo:%d, message:%s ", errorNo, message));
             }
-
             @SuppressLint("DefaultLocale")
             @Override
             public void onStopGatherCallback(int errorNo, String message) {
