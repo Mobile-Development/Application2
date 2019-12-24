@@ -52,7 +52,7 @@
                     android:gravity="center_vertical"
                     android:includeFontPadding="false"
                     android:paddingRight="170.0dip"
-                    android:text="登陆/注册"
+                    android:text="77"
                     android:textColor="#ffffff"
                     android:textSize="18.0sp" />
 
@@ -196,7 +196,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="体重：60KG\n\n 体脂率：20%\n\n BIM：40%\n\n 静息心率：63"
+                android:text="BMI： \n\n PBF：20%\n\n BMR：40%\n\n HR：63"
                 android:textColor="#ff888888"
                 android:textSize="16.0sp"
                 />

@@ -36,6 +36,7 @@ public class SettingFragment extends Fragment {
     private List<String> dataList = null;
     private TableRow tableRow1;
     private TableRow tableRow2;
+    private TextView anal_text;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -45,6 +46,7 @@ public class SettingFragment extends Fragment {
 
         tableRow1 = root.findViewById(R.id.more_page_row1);
         tableRow2 = root.findViewById(R.id.more_page_row2);
+        anal_text = root.findViewById(R.id.anal_text);
         setListener();
 
         final ArrayList<ArcProgressStackView.Model> models = new ArrayList<>();
@@ -55,14 +57,15 @@ public class SettingFragment extends Fragment {
         //BMR = 66 + (13.7 x 体重kg) + (5 x 身高cm) - (6.8 x 年龄)
         Double Dbmr = (655 + (9.6*HealthData.body_weight) + 1.8*HealthData.body_height/100 - 4.7*HealthData.age) * HealthData.Male +
                 (66 + (13.7*HealthData.body_weight) + 5*HealthData.body_height/100 - 6.8*HealthData.age) * HealthData.Female;
-        float bmr = Dbmr.floatValue()/2000;
+        Double bmr = Dbmr/20;
         models.add(new ArcProgressStackView.Model("BMI", Math.round(bmi), Color.parseColor("#DCDCDC"), Color.parseColor("#26A69A")));
         models.add(new ArcProgressStackView.Model("PBF", Dpbf.intValue(), Color.parseColor("#C0C0C0"), Color.parseColor("#0088FF")));
-        models.add(new ArcProgressStackView.Model("BMR", Dbmr.intValue(), Color.parseColor("#D3D3D3"), Color.parseColor("#26A69A")));
+        models.add(new ArcProgressStackView.Model("BMR", bmr.intValue(), Color.parseColor("#D3D3D3"), Color.parseColor("#26A69A")));
         models.add(new ArcProgressStackView.Model("HR", HealthData.body_HR, Color.parseColor("#A9A9A9"), Color.parseColor("#0088FF")));
 
         final ArcProgressStackView arcProgressStackView = (ArcProgressStackView) root.findViewById(R.id.apsv);
         arcProgressStackView.setModels(models);
+        anal_text.setText("BMI:"+ Math.round(bmi)+"\n\nPBF："+Dpbf.intValue()+"\n\n BMR："+bmr.intValue() +"\n\n HR："+HealthData.body_HR);
         return root;
     }
 
