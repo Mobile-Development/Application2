@@ -23,7 +23,7 @@ public class DateUtil {
         if (isSameDay(l1, l2)) {
             Calendar localCalendar = GregorianCalendar.getInstance();
             localCalendar.setTime(paramDate);
-            int i = localCalendar.get(11);
+            int i = localCalendar.get(Calendar.HOUR_OF_DAY);
             if (i > 17)
                 str = "晚上 hh:mm";
             else if ((i >= 0) && (i <= 6))
@@ -106,6 +106,13 @@ public class DateUtil {
         Date date = null;
         date = formatter.parse(strTime);
         return date;
+    }
+
+    public static String DateToString(Date date, String formatType)
+            {
+        SimpleDateFormat formatter = new SimpleDateFormat(formatType);
+        String dateString = formatter.format(date);
+        return dateString;
     }
 
     private static boolean isSameDay(long paramLong1, long paramLong2) {
