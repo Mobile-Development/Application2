@@ -14,6 +14,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.R;
 import com.example.myapplication.constant.HealthData;
+import com.example.myapplication.model.Account;
+import com.example.myapplication.model.PersonInfo;
+import com.example.myapplication.utils.DatabaseUtil;
+
+import static com.example.myapplication.utils.DatabaseUtil.SearchPersonInfoRequest;
 
 public class HealthRecord extends AppCompatActivity {
     private TextView confirm_button;
@@ -28,10 +33,12 @@ public class HealthRecord extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_health);
         getSupportActionBar().hide();
+
         confirm_button = findViewById(R.id.health_confirm);
         confirm_button2 = findViewById(R.id.health_confirm2);
         marker = findViewById(R.id.health_marker);
         text1 = findViewById(R.id.health_text1);//age
+
         text2 = findViewById(R.id.health_text2);//shengao
         text3 = findViewById(R.id.health_text3);//tizhong
         text4 = findViewById(R.id.health_text4);//xinlv

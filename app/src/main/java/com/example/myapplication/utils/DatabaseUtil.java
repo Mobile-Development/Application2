@@ -1,5 +1,6 @@
 package com.example.myapplication.utils;
 
+import android.content.Context;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -29,13 +30,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class DatabaseUtil {
 
-    public void LoginRequest(final AppCompatActivity activity) {            //需要先将数据输入Account
+    public static void LoginRequest(Context context) {            //需要先将数据输入Account
         //请求地址
         String url = "http://49.235.33.137:8080/myFirstWebApp/LoginServlet";    //注①
         String tag = "Login";    //注②
 
         //取得请求队列
-        RequestQueue requestQueue = Volley.newRequestQueue(activity.getApplicationContext());
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
 
         //防止重复请求，所以先取消tag标识的请求队列
         requestQueue.cancelAll(tag);
@@ -53,7 +54,6 @@ public class DatabaseUtil {
                                 if (result.equals("success")) {  //注⑤
                                     //textView1.setText("Response is: "+ result+id);
                                     Log.i("xsy login", "success");
-                                    activity.finish();
                                 } else {
                                     //做自己的登录失败操作，如Toast提示
                                     //Toast.makeText(getApplicationContext(), "Error:用户名或密码错误", Toast.LENGTH_LONG).show();
@@ -89,18 +89,16 @@ public class DatabaseUtil {
         requestQueue.add(request);
     }
 
-    public void RegisterRequest(final AppCompatActivity activity) {
+    public static void RegisterRequest(Context context) {
         //请求地址
         String url = "http://49.235.33.137:8080/myFirstWebApp/RegisterServlet";    //注①
         String tag = "Register";    //任意，只是标记的tag
 
         //取得请求队列
-        RequestQueue requestQueue = Volley.newRequestQueue(activity.getApplicationContext());
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
 
         //防止重复请求，所以先取消tag标识的请求队列
         requestQueue.cancelAll(tag);
-        final TextView textView1 = (TextView) activity.findViewById(R.id.text);
-        textView1.setText("Response is: ");
         //创建StringRequest，定义字符串请求的请求方式为POST(省略第一个参数会默认为GET方式)
         final StringRequest request = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
@@ -111,10 +109,9 @@ public class DatabaseUtil {
                                 JSONObject jsonObject = (JSONObject) new JSONObject(response).get("params");  //注③
                                 String result = jsonObject.getString("Result");  //注④
                                 if (result.equals("success")) {  //注⑤
-                                    textView1.setText("Response is: "+ result);
+                                    //
                                 } else {
                                     //做自己的登录失败操作，如Toast提示
-                                    textView1.setText("Response is: "+ result);
                                 }
                             } catch (Exception e) {
                                 //做自己的请求异常操作，如Toast提示（“无网络连接”等）
@@ -145,18 +142,17 @@ public class DatabaseUtil {
         requestQueue.add(request);
     }
 
-    public void SearchPersonInfoRequest(final int Id,final AppCompatActivity activity) {
+    public static void SearchPersonInfoRequest(final int Id,Context context) {
         //请求地址
         String url = "http://49.235.33.137:8080/myFirstWebApp/SearchPersonInfoServlet";    //注①
         String tag = "SearchPersonInfo";    //注②
 
         //取得请求队列
-        RequestQueue requestQueue = Volley.newRequestQueue(activity.getApplicationContext());
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
 
         //防止重复请求，所以先取消tag标识的请求队列
         requestQueue.cancelAll(tag);
-        final TextView textView1 = (TextView) activity.findViewById(R.id.text);
-        textView1.setText("Response is: ");
+
         //创建StringRequest，定义字符串请求的请求方式为POST(省略第一个参数会默认为GET方式)
         final StringRequest request = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
@@ -181,7 +177,7 @@ public class DatabaseUtil {
 
                                 } else {
                                     //做自己的登录失败操作，如Toast提示
-                                    textView1.setText("Response is: "+ result);
+
                                 }
                             } catch (Exception e) {
                                 //做自己的请求异常操作，如Toast提示（“无网络连接”等）
@@ -211,7 +207,7 @@ public class DatabaseUtil {
         requestQueue.add(request);
     }
 
-    public void UpdatePersonInfoRequest(final AppCompatActivity activity) {
+    public void UpdatePersonInfoRequest(AppCompatActivity activity) {
         //请求地址
         String url = "http://49.235.33.137:8080/myFirstWebApp/UpdatePersonInfoServlet";    //注①
         String tag = "UpdatePersonInfo";    //注②
@@ -276,7 +272,7 @@ public class DatabaseUtil {
         requestQueue.add(request);
     }
 
-    public void SearchStepByIdRequest(final int id,final AppCompatActivity activity) {
+    public void SearchStepByIdRequest(final int id,AppCompatActivity activity) {
         //请求地址
         String url = "http://49.235.33.137:8080/myFirstWebApp/QueryStepByIdServlet";    //注①
         String tag = "QueryStepById";    //注②
@@ -339,7 +335,7 @@ public class DatabaseUtil {
         requestQueue.add(request);
     }
 
-    public void SearchSomeStepRequest(final Step step, final AppCompatActivity activity) {
+    public void SearchSomeStepRequest(final Step step,AppCompatActivity activity) {
         //请求地址
         String url = "http://49.235.33.137:8080/myFirstWebApp/SearchSomeStepServlet";    //注①
         String tag = "QuerySomeStep";    //注②
@@ -404,7 +400,7 @@ public class DatabaseUtil {
         requestQueue.add(request);
     }
 
-    public void InsertStepRequest(final Step step,final AppCompatActivity activity) {
+    public void InsertStepRequest(final Step step,AppCompatActivity activity) {
         //请求地址
         String url = "http://49.235.33.137:8080/myFirstWebApp/InsertStepServlet";    //注①
         String tag = "InsertStep";    //注②
@@ -463,7 +459,7 @@ public class DatabaseUtil {
         requestQueue.add(request);
     }
 
-    public void UpdateStepRequest(final Step step,final AppCompatActivity activity) {
+    public void UpdateStepRequest(final Step step,AppCompatActivity activity) {
         //请求地址
         String url = "http://49.235.33.137:8080/myFirstWebApp/UpdateStepServlet";    //注①
         String tag = "UpdateStep";    //注②
@@ -522,7 +518,7 @@ public class DatabaseUtil {
         requestQueue.add(request);
     }
 
-    public void SearchPersonSportsInfoByIdRequest(final List<PersonSportsInfo> personSportsInfos , final int id, final AppCompatActivity activity) {//目前到这
+    public void SearchPersonSportsInfoByIdRequest(final List<PersonSportsInfo> personSportsInfos , final int id, AppCompatActivity activity) {//目前到这
         //请求地址
         String url = "http://49.235.33.137:8080/myFirstWebApp/QueryPersonSportsInfoServlet";    //注①
         String tag = "QueryPersonSportsInfoById";    //注②
@@ -587,7 +583,7 @@ public class DatabaseUtil {
         //将请求添加到队列中
         requestQueue.add(request);
     }
-    public void SearchPersonSportsInfoOnSomedayRequest(final int id,final String date,final List<PersonSportsInfo> personSportsInfos, final AppCompatActivity activity) {//未解决
+    public void SearchPersonSportsInfoOnSomedayRequest(final int id,final String date,final List<PersonSportsInfo> personSportsInfos, AppCompatActivity activity) {//未解决
         //请求地址
         String url = "http://49.235.33.137:8080/myFirstWebApp/QueryPersonSportsInfoOnSomeDayServlet";    //注①
         String tag = "QueryPersonSportsInfoOnSomeDay";    //注②
@@ -659,7 +655,7 @@ public class DatabaseUtil {
 
     }
 
-    public void InsertPersonSportsInfoRequest(final PersonSportsInfo personSportsInfo ,final AppCompatActivity activity) {
+    public void InsertPersonSportsInfoRequest(final PersonSportsInfo personSportsInfo ,AppCompatActivity activity) {
         //请求地址
         String url = "http://49.235.33.137:8080/myFirstWebApp/InsertPersonSportsInfoServlet";    //注①
         String tag = "InsertPersonSportsInfo";    //注②
@@ -719,7 +715,7 @@ public class DatabaseUtil {
         requestQueue.add(request);
     }
 
-    public void DeletePersonSportsInfoRequest(final int sNo,final AppCompatActivity activity) {
+    public void DeletePersonSportsInfoRequest(final int sNo,AppCompatActivity activity) {
         //请求地址
         String url = "http://49.235.33.137:8080/myFirstWebApp/DeletePersonSportsInfoServlet";    //注①
         String tag = "InsertPersonSportsInfo";    //注②
@@ -775,7 +771,7 @@ public class DatabaseUtil {
         requestQueue.add(request);
     }
 
-    public void UpdatePersonSportsInfoRequest(final PersonSportsInfo personSportsInfo, final AppCompatActivity activity) {
+    public void UpdatePersonSportsInfoRequest(final PersonSportsInfo personSportsInfo, AppCompatActivity activity) {
         //请求地址
         String url = "http://49.235.33.137:8080/myFirstWebApp/UpdatePersonSportsInfoServlet";    //注①
         String tag = "InsertPersonSportsInfo";    //注②

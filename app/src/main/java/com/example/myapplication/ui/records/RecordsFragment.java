@@ -193,6 +193,7 @@ public class RecordsFragment extends Fragment {
 
     private void initData() {
 
+
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("time", "39");
         map.put("cal", "3800");

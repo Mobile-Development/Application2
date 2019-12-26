@@ -33,8 +33,10 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
+import com.example.myapplication.model.Account;
 import com.example.myapplication.ui.login.LoginViewModel;
 import com.example.myapplication.ui.login.LoginViewModelFactory;
+import com.example.myapplication.utils.DatabaseUtil;
 
 import org.json.JSONObject;
 
@@ -88,10 +90,12 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
+                //对单例Account赋值
+                Account.getInstance().setAccountNumber(usernameEditText.getText().toString());
+                Account.getInstance().setPassword(passwordEditText.getText().toString());
 //                loginViewModel.login(usernameEditText.getText().toString(),
 //                        passwordEditText.getText().toString());
-                LoginRequest(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
+                DatabaseUtil.LoginRequest(getApplicationContext());
             }
         });
     }

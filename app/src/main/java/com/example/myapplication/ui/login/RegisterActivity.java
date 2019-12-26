@@ -20,6 +20,8 @@ import com.android.volley.toolbox.Volley;
 import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.data.HealthRecord;
+import com.example.myapplication.model.Account;
+import com.example.myapplication.utils.DatabaseUtil;
 
 import org.json.JSONObject;
 
@@ -40,8 +42,9 @@ public class RegisterActivity extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RegisterRequest(username.getText().toString(),
-                        password.getText().toString());
+                Account.getInstance().setAccountNumber(username.getText().toString());
+                Account.getInstance().setPassword(password.getText().toString());
+                DatabaseUtil.RegisterRequest(getApplicationContext());
                 //注册完成后
                 Intent intent = new Intent(RegisterActivity.this, HealthRecord.class);
                 intent.putExtra("flag",false);
