@@ -13,6 +13,8 @@ public class RecordsViewModel extends ViewModel {
         mText.setValue("This is dashboard fragment");
     }
 
+
+
     public LiveData<String> getText() {
         return mText;
     }

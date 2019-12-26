@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -35,7 +36,9 @@ import com.nightonke.boommenu.Piece.PiecePlaceEnum;
 import org.joda.time.LocalDate;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.necer.enumeration.SelectedModel.SINGLE_SELECTED;
 
@@ -46,7 +49,8 @@ public class RecordsFragment extends Fragment {
     private TextView tv_result;
 
     private ListView lsv_side_slip_delete;
-    private List<String> list = new ArrayList<>();
+    //private List<String> list = new ArrayList<>();
+    private List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
     private SideSlipAdapter adapter;
 
     private BoomMenuButton bmb;
@@ -61,7 +65,8 @@ public class RecordsFragment extends Fragment {
                 ViewModelProviders.of(this).get(RecordsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_records, container, false);
         calendarInit(root);
-        initList();
+        initData();
+        initAdapter();
         buildButtons();
         return root;
     }
@@ -100,13 +105,12 @@ public class RecordsFragment extends Fragment {
         });
     }
 
-    private void initList(){
-        // 初始化模拟数据
-        for (int i = 0;i < 6;i++){
-            list.add("" + (i + 1));
-        }
+    private void initAdapter(){
         // 创建adapter，listview设置adapter
-        adapter = new SideSlipAdapter(getActivity(), list);
+        //adapter = new SideSlipAdapter(getActivity(), list);
+        adapter = new SideSlipAdapter(getActivity(), list ,R.layout.list_item,
+                new String[]{"time","cal","img"},
+                new int[]{R.id.item_time,R.id.item_cal,R.id.item_image});
         lsv_side_slip_delete.setAdapter(adapter);
 
         if (adapter != null){
@@ -125,17 +129,13 @@ public class RecordsFragment extends Fragment {
                     mdoPos = pos;
                     Intent intent = new Intent(getActivity(), DialogActivity.class);
                     intent.putExtra("kind",pos);
-                    intent.putExtra("data",list.get(pos));
+                    intent.putExtra("data",list.get(pos).get("time").toString());
                     startActivityForResult(intent,0);
                 }
             });
         }
     }
 
-    private void updateList(LocalDate date){
-        list.clear();
-        list.add(date.toString());
-    }
 
     private void buildButtons(){
         bmb.setButtonEnum(ButtonEnum.TextInsideCircle);
@@ -178,13 +178,39 @@ public class RecordsFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         //Integer time = Integer.parseInt(data.getStringExtra("data"));
         if(flag){
-            list.add(data.getStringExtra("data"));
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("time", data.getStringExtra("data"));
+            map.put("cal", "3800");
+            map.put("img", R.drawable.ic_basketball);
+            list.add(map);
             adapter.notifyDataSetChanged();
         }
         else{
-            list.set(mdoPos, "Life Is A Struggle");
+            list.get(mdoPos).replace("time", data.getStringExtra("data"));
             adapter.notifyDataSetChanged();
         }
+    }
+
+    private void initData() {
+
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("time", "39");
+        map.put("cal", "3800");
+        map.put("img", R.drawable.ic_basketball);
+        list.add(map);
+
+        map = new HashMap<String, Object>();
+        map.put("time", "39");
+        map.put("cal", "3800");
+        map.put("img", R.drawable.ic_cycling);
+        list.add(map);
+
+        map = new HashMap<String, Object>();
+        map.put("time", "39");
+        map.put("cal", "3800");
+        map.put("img", R.drawable.ic_swim_24dp);
+        list.add(map);
+
     }
 
     private void addBuilders(){

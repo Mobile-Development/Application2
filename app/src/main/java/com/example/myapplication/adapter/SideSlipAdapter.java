@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,17 +14,26 @@ import com.example.myapplication.R;
 import com.mcxtzhang.swipemenulib.SwipeMenuLayout;
 
 import java.util.List;
+import java.util.Map;
 
-public class SideSlipAdapter extends BaseAdapter{
+public class SideSlipAdapter extends SimpleAdapter {
 
     private LayoutInflater inflater;
-    private List<String> list;
+    //private List<String> list;
+    private List<? extends Map<String, ?>> list;
     private Context context;
 
-    public SideSlipAdapter(Context context, List<String> list) {
+//    public SideSlipAdapter(Context context, List<String> list) {
+//        this.inflater = LayoutInflater.from(context);
+//        this.list = list;
+//        this.context = context;
+//    }
+    public SideSlipAdapter(Context context, List<? extends Map<String, ?>> data, int resource, String[] from, int[] to) {
+        super(context,data,resource, from, to);
         this.inflater = LayoutInflater.from(context);
-        this.list = list;
+        this.list = data;
         this.context = context;
+        //(this,getData(),R.layout.vlist,new String[]{"title","info","img"},new int[]{R.id.title,R.id.info,R.id.img});
     }
 
     @Override
@@ -60,7 +70,9 @@ public class SideSlipAdapter extends BaseAdapter{
         final View finalCloseView = closeView;// listView的itemView
 
         holder = (ViewHolder) convertView.getTag();
-        holder.tv_delete.setText(list.get(position));
+        //holder.tv_delete.setText(list.get(position));
+
+
 
         // 置顶按钮的单击事件
         holder.btn_top.setOnClickListener(new View.OnClickListener() {
