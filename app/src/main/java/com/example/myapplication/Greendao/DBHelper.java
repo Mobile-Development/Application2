@@ -64,20 +64,13 @@ public class DBHelper {
     }
 
     public static UserInfo getUserInfo() {
-        //UserInfo userInfo = new UserInfo((long)11,"111","111");
-        //getUserInfoDao().insert(userInfo);
-        //return query.get(0);
         List<UserInfo> query = getUserInfoDao().loadAll();
         if (query.size() > 0) {
             return query.get(0);
         } else {
             return null;
         }
-        //getUserInfoDao().deleteAll();
-//        GreenDaoManager.getInstance().getmDaoSession().deleteAll(StepInfo.class);
-//        GreenDaoManager.getInstance().getmDaoSession().deleteAll(UserInfo.class);
 
-        //return null;
     }
 
 }

@@ -21,7 +21,6 @@ public class DialogActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog);
-        //Integer kind = getIntent().getIntExtra("kind",0);
         String data = getIntent().getStringExtra("data");
         text_exeLength =(TextView)findViewById(R.id.text_exeLength);
         text_exeLength.setText(data);

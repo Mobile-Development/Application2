@@ -46,7 +46,6 @@ public class HealthRecord extends AppCompatActivity {
         confirm_button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                //Toast.makeText(HealthRecord.this, text2.getText().toString(), Toast.LENGTH_SHORT).show();
                 getHealthData();
                 finish();
             }
@@ -54,7 +53,6 @@ public class HealthRecord extends AppCompatActivity {
         confirm_button2.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                //Toast.makeText(HealthRecord.this, text2.getText().toString(), Toast.LENGTH_SHORT).show();
                 getHealthData();
                 Intent intent = new Intent(HealthRecord.this, AthleticData.class);
                 intent.putExtra("flag",false);

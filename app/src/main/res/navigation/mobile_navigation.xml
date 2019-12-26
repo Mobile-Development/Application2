@@ -14,18 +14,13 @@
     <fragment
         android:id="@+id/navigation_dashboard"
         android:name="com.example.myapplication.ui.records.RecordsFragment"
-        android:label="@string/title_dashboard"
+        android:label="@string/title_Record"
         tools:layout="@layout/fragment_records" />
 
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.example.myapplication.ui.setting.SettingFragment"
-        android:label="@string/title_notifications"
+        android:label="@string/title_setting"
         tools:layout="@layout/fragment_setting" />
 
-    <fragment
-        android:id="@+id/navigation_trace"
-        android:name="com.example.myapplication.ui.location.TraceFragment"
-        android:label="@string/title_trace"
-        tools:layout="@layout/fragment_trace" />
 </navigation>

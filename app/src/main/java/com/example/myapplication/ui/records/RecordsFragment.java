@@ -103,11 +103,9 @@ public class RecordsFragment extends Fragment {
                 tv_result.setText(localDate.toString());
 
                 if (localDate != null) {
-                    CalendarDate calendarDate = CalendarUtil.getCalendarDate(localDate);
-                    Lunar lunar = calendarDate.lunar;
-                    //updateList(localDate);
-                    //tv_data.setText(localDate.toString("yyyy年MM月dd日"));
-                    //tv_desc.setText(lunar.chineseEra + lunar.animals + "年" + lunar.lunarMonthStr + lunar.lunarDayStr);
+//                    CalendarDate calendarDate = CalendarUtil.getCalendarDate(localDate);
+//                    Lunar lunar = calendarDate.lunar;
+
                 } else {
                     //tv_data.setText("");
                     //tv_desc.setText("");

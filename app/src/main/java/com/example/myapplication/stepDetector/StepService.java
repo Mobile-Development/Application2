@@ -48,7 +48,6 @@ public class StepService extends Service implements SensorEventListener {
     private Messenger messenger = new Messenger(new MessengerHandler());
     private BroadcastReceiver mBatInfoReceiver;
     private PowerManager.WakeLock mWakeLock;
-    //计步传感器类型 0-counter 1-detector 2-加速度传感器
     private static int stepSensor = -1;
     private static String CURRENTDATE = "";
     private boolean isNewDay = false;
@@ -118,9 +117,7 @@ public class StepService extends Service implements SensorEventListener {
         }
     }
 
-    /**
-     * 初始化广播
-     */
+
     private void initBroadcastReceiver() {
         //定义意图过滤器
         final IntentFilter filter = new IntentFilter();
@@ -134,9 +131,6 @@ public class StepService extends Service implements SensorEventListener {
         filter.addAction(Intent.ACTION_SCREEN_ON);
         //屏幕解锁广播
         filter.addAction(Intent.ACTION_USER_PRESENT);
-        //当长按电源键弹出“关机”对话或者锁屏时系统会发出这个广播
-        //example：有时候会用到系统对话框，权限可能很高，会覆盖在锁屏界面或者“关机”对话框之上，
-        //所以监听这个广播，当收到时就隐藏自己的对话，如点击pad右下角部分弹出的对话框
         filter.addAction(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
 
         mBatInfoReceiver = new BroadcastReceiver() {
@@ -172,9 +166,6 @@ public class StepService extends Service implements SensorEventListener {
         registerReceiver(mBatInfoReceiver, filter);
     }
 
-    /**
-     * 初始化当天的日期
-     */
     private void initTodayData() {
         CURRENTDATE = DateUtil.getTodayDate();
         StepInfo stepInfo = DBHelper.getStepInfo(CURRENTDATE);
@@ -203,10 +194,8 @@ public class StepService extends Service implements SensorEventListener {
             sensorManager = null;
             stepDetector = null;
         }
-        //得到休眠锁，目的是为了当手机黑屏后仍然保持CPU运行，使得服务能持续运行
         getLock(this);
         sensorManager = (SensorManager) this.getSystemService(SENSOR_SERVICE);
-        //android4.4以后可以使用计步传感器
         int VERSION_CODES = Build.VERSION.SDK_INT;
         if (VERSION_CODES >= 19) {
             addCountStepListener();
@@ -234,9 +223,6 @@ public class StepService extends Service implements SensorEventListener {
     }
 
 
-    /**
-     * 使用加速度传感器
-     */
     private void addBasePedoListener() {
         stepDetector = new StepDetector(this);
         Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -244,7 +230,6 @@ public class StepService extends Service implements SensorEventListener {
         stepDetector.setOnSensorChangeListener(new StepDetector.OnSensorChangeListener() {
             @Override
             public void onChange() {
-                //updateNotification("今日步数：" + StepDetector.CURRENT_STEP + " 步");
             }
         });
     }
@@ -265,8 +250,6 @@ public class StepService extends Service implements SensorEventListener {
         } else if (stepSensor == 1) {
             StepDetector.CURRENT_STEP++;
         }
-        //更新状态栏信息
-        //updateNotification("今日步数：" + StepDetector.CURRENT_STEP + " 步");
 
     }
 

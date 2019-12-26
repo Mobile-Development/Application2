@@ -52,9 +52,6 @@ public class SettingFragment extends Fragment {
         final ArrayList<ArcProgressStackView.Model> models = new ArrayList<>();
         float bmi = HealthData.body_weight/((HealthData.body_height/100) * (HealthData.body_height/100));
         Double Dpbf = (1.2*bmi + 0.23*HealthData.age - 5.4 - 10.8*HealthData.Male);
-        //float pbf = Dpbf.floatValue();
-        //BMR = 655 + (9.6 x 体重kg) + (1.8 x 身高cm) - (4.7 x 年龄)
-        //BMR = 66 + (13.7 x 体重kg) + (5 x 身高cm) - (6.8 x 年龄)
         Double Dbmr = (655 + (9.6*HealthData.body_weight) + 1.8*HealthData.body_height/100 - 4.7*HealthData.age) * HealthData.Male +
                 (66 + (13.7*HealthData.body_weight) + 5*HealthData.body_height/100 - 6.8*HealthData.age) * HealthData.Female;
         Double bmr = Dbmr/20;
