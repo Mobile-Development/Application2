@@ -8,17 +8,58 @@
     app:leftSwipe="true"
     app:ios="true">
 
-    <!-- itemView的内容，这里我简单的使用了一个textview。
-    如果是更加复杂的布局，大家可以在外面包裹一个父布局，如LineatLayout，
-    然后在这个父布局里面设置你想要展示的复杂内容。listview的每一个item展示的
-    内容就是这个布局确定的，必须要有。-->
-    <TextView
-        android:id="@+id/content"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="?android:attr/selectableItemBackground"
-        android:gravity="center"
-        android:text="项目中我是任意复杂的原ContentItem布局"/>
+        android:layout_height="70dp">
+    <ImageView
+        android:id="@+id/item_image"
+        android:tint="@color/green00"
+        android:src="@drawable/ic_swim_24dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="运动时长："
+        android:layout_gravity="center_vertical"
+        android:textColor="#ff888888"
+        android:textSize="18sp"
+        android:layout_marginLeft="7dp"/>
+    <TextView
+        android:id="@+id/item_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="23"
+        android:layout_gravity="center_vertical"
+        android:textColor="#ff888888"
+        android:textSize="18sp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="min    卡路里："
+        android:layout_gravity="center_vertical"
+        android:textColor="#ff888888"
+        android:textSize="18sp" />
+    <TextView
+        android:id="@+id/item_cal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1800"
+        android:layout_gravity="center_vertical"
+        android:textColor="#ff888888"
+        android:textSize="18sp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="cal"
+        android:layout_gravity="center_vertical"
+        android:textColor="#ff888888"
+        android:textSize="18sp" />
+    </LinearLayout>
 
     <!-- 侧滑菜单选项，这里可以有多个选项。我这里就用了置顶和删除两个选项-->
     <Button

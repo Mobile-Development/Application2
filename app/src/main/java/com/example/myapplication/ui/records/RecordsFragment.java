@@ -107,10 +107,10 @@ public class RecordsFragment extends Fragment {
 
     private void initAdapter(){
         // 创建adapter，listview设置adapter
-        //adapter = new SideSlipAdapter(getActivity(), list);
-        adapter = new SideSlipAdapter(getActivity(), list ,R.layout.list_item,
-                new String[]{"time","cal","img"},
-                new int[]{R.id.item_time,R.id.item_cal,R.id.item_image});
+        adapter = new SideSlipAdapter(getActivity(), list);
+        //adapter = new SideSlipAdapter(getActivity(), list ,R.layout.list_item,
+//                new String[]{"time","cal","img"},
+//                new int[]{R.id.item_time,R.id.item_cal,R.id.item_image});
         lsv_side_slip_delete.setAdapter(adapter);
 
         if (adapter != null){
@@ -201,12 +201,12 @@ public class RecordsFragment extends Fragment {
 
         map = new HashMap<String, Object>();
         map.put("time", "39");
-        map.put("cal", "3800");
+        map.put("cal", "300");
         map.put("img", R.drawable.ic_cycling);
         list.add(map);
 
         map = new HashMap<String, Object>();
-        map.put("time", "39");
+        map.put("time", "20");
         map.put("cal", "3800");
         map.put("img", R.drawable.ic_swim_24dp);
         list.add(map);

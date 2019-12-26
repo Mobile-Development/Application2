@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,21 +16,16 @@ import com.mcxtzhang.swipemenulib.SwipeMenuLayout;
 
 import java.util.List;
 import java.util.Map;
-
-public class SideSlipAdapter extends SimpleAdapter {
+//extends SimpleAdapter
+public class SideSlipAdapter extends BaseAdapter {
 
     private LayoutInflater inflater;
     //private List<String> list;
     private List<? extends Map<String, ?>> list;
     private Context context;
 
-//    public SideSlipAdapter(Context context, List<String> list) {
-//        this.inflater = LayoutInflater.from(context);
-//        this.list = list;
-//        this.context = context;
-//    }
-    public SideSlipAdapter(Context context, List<? extends Map<String, ?>> data, int resource, String[] from, int[] to) {
-        super(context,data,resource, from, to);
+    public SideSlipAdapter (Context context, List<? extends Map<String, ?>> data) {
+        //super(context,data,resource, from, to);
         this.inflater = LayoutInflater.from(context);
         this.list = data;
         this.context = context;
@@ -58,7 +54,10 @@ public class SideSlipAdapter extends SimpleAdapter {
         if (convertView == null){
             convertView = inflater.inflate(R.layout.listview_item_delete, parent, false);
             holder = new ViewHolder();
-            holder.tv_delete = convertView.findViewById(R.id.content);
+            //holder.tv_delete = convertView.findViewById(R.id.content);
+            holder.tv_time = convertView.findViewById(R.id.item_time);
+            holder.tv_cal = convertView.findViewById(R.id.item_cal);
+            holder.img = convertView.findViewById(R.id.item_image);
             holder.btn_top = convertView.findViewById(R.id.btnTop);
             holder.btn_delete = convertView.findViewById(R.id.btnDelete);
             convertView.setTag(holder);
@@ -70,6 +69,10 @@ public class SideSlipAdapter extends SimpleAdapter {
         final View finalCloseView = closeView;// listView的itemView
 
         holder = (ViewHolder) convertView.getTag();
+        holder.tv_time.setText(list.get(position).get("time").toString());
+        holder.tv_cal.setText(list.get(position).get("cal").toString());
+        //holder.img.setImageResource(list.get(position).get("img"));
+        //holder.img.setImageDrawable(list.get(position).get("img"));
         //holder.tv_delete.setText(list.get(position));
 
 
@@ -104,7 +107,10 @@ public class SideSlipAdapter extends SimpleAdapter {
      * 缓存控件用
      */
     static class ViewHolder{
-        TextView tv_delete;// 展示内容
+        //TextView tv_delete;// 展示内容
+        TextView tv_time;
+        TextView tv_cal;
+        ImageView img;
         Button btn_top;// 置顶
         Button btn_delete;// 删除
     }
