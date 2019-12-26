@@ -15,25 +15,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
-import com.db.chart.animation.Animation;
 import com.db.chart.model.LineSet;
 import com.db.chart.renderer.AxisRenderer;
 import com.db.chart.view.LineChartView;
 import com.example.myapplication.Greendao.DBHelper;
 import com.example.myapplication.Greendao.entry.StepInfo;
-import com.example.myapplication.Greendao.entry.UserInfo;
-import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.constant.Constant;
 import com.example.myapplication.stepDetector.StepService;
-import com.example.myapplication.ui.login.LoginActivity;
 import com.example.myapplication.utils.ConversionUtil;
+import com.example.myapplication.utils.DatabaseUtil;
 import com.example.myapplication.utils.DateUtil;
 
 import java.text.DecimalFormat;
@@ -48,7 +42,7 @@ public class HomeFragment extends Fragment implements Handler.Callback{
     private Messenger mGetReplyMessenger = new Messenger(new Handler(this));
     private Handler delayHandler;
     private DecimalFormat df1 = new DecimalFormat("0.00");
-    private TextView textView0, textView1, textView2;
+    private TextView stepCountText, CalText, LengthText;
 
     private LineChartView mChart;
 
@@ -76,19 +70,11 @@ public class HomeFragment extends Fragment implements Handler.Callback{
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-//        homeViewModel =
-//                ViewModelProviders.of(this).get(HomeViewModel.class);
-//        final TextView textView = root.findViewById(R.id.text_home);
-//        homeViewModel.getText().observe(this, new Observer<String>() {
-//            @Override
-//            public void onChanged(@Nullable String s) {
-//                textView.setText(s);
-//            }
-//        });
+
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-        textView0 = root.findViewById(R.id.stepcount);
-        textView1 = root.findViewById(R.id.step);
-        textView2 = root.findViewById(R.id.step2);
+        stepCountText = root.findViewById(R.id.stepcount);
+        CalText = root.findViewById(R.id.CAL_TEXT);
+        LengthText = root.findViewById(R.id.LENGTH_TEXT);
         mChart= root.findViewById(R.id.lineChart);
 
         initBarChatData();
@@ -106,14 +92,15 @@ public class HomeFragment extends Fragment implements Handler.Callback{
     }
 
     private void initBarChatData() {
-        StepInfo stepInfo = DBHelper.getStepInfo(DateUtil.getTodayDate());
+//        StepInfo stepInfo = DBHelper.getStepInfo(DateUtil.getTodayDate());
+        DatabaseUtil.SearchStepByIdRequest(1,this);
         if (stepInfo != null) {
-            long step = stepInfo.getStepCount();
+            int step = stepInfo.getStepCount();
             String mileages = String.valueOf(ConversionUtil.step2Mileage(step));
             String calorie = df1.format(ConversionUtil.step2Calories(step));
-            textView0.setText(" " + step + " ");
-            textView1.setText("   卡路里:" + calorie + "卡");
-            textView2.setText("  行走:" + mileages + "米");
+            stepCountText.setText(" " + step + " ");
+            CalText.setText("   卡路里:" + calorie + "卡");
+            LengthText.setText("  行走:" + mileages + "米");
         }
     }
 
@@ -130,9 +117,7 @@ public class HomeFragment extends Fragment implements Handler.Callback{
         mChart.setBorderSpacing(1)
                 .setXLabels(AxisRenderer.LabelPosition.OUTSIDE)
                 .setYLabels(AxisRenderer.LabelPosition.OUTSIDE);
-
         //Animation anim = new Animation().setEndAction(action);
-
         mChart.show();
     }
 
@@ -145,8 +130,8 @@ public class HomeFragment extends Fragment implements Handler.Callback{
                 long step = msg.getData().getLong("step");
                 String mileages = String.valueOf(ConversionUtil.step2Mileage(step));
                 String calorie = df1.format(ConversionUtil.step2Calories(step));
-                textView0.setText("卡路里:" + calorie + "卡");
-                textView2.setText("  行走:" + mileages + "米");
+                CalText.setText("卡路里:" + calorie + "卡");
+                LengthText.setText("  行走:" + mileages + "米");
                 delayHandler.sendEmptyMessageDelayed(Constant.REQUEST_SERVER, Constant.TIME_INTERVAL);
                 //colorArcProgressBar.setCurrentValues((int) step);
                 break;

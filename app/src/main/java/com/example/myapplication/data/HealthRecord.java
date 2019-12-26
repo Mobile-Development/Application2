@@ -47,6 +47,7 @@ public class HealthRecord extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Toast.makeText(HealthRecord.this, text2.getText().toString(), Toast.LENGTH_SHORT).show();
+                getHealthData();
                 finish();
             }
         });
@@ -54,7 +55,7 @@ public class HealthRecord extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Toast.makeText(HealthRecord.this, text2.getText().toString(), Toast.LENGTH_SHORT).show();
-                getdata();
+                getHealthData();
                 Intent intent = new Intent(HealthRecord.this, AthleticData.class);
                 intent.putExtra("flag",false);
                 startActivity(intent);
@@ -64,16 +65,14 @@ public class HealthRecord extends AppCompatActivity {
         msetvisible();
 
         RadioGroup rgroup=(RadioGroup)findViewById(R.id.radioSex);
-
-
         //通过setOnCheckedChangeListener( )来响应按钮的事
         rgroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener(){
             @Override
             public void onCheckedChanged(RadioGroup rg,int checkedId)
             {
                 switch(checkedId){
-                    case R.id.radioMale:{ HealthData.Male = 1; HealthData.Female = 0; break;}
-                    case R.id.radioFemale: {HealthData.Male = 0;HealthData.Female = 1;break;}
+                    case R.id.radioMale:{ PersonInfo.getInstance().setGender(1);break;}
+                    case R.id.radioFemale: {PersonInfo.getInstance().setGender(0);break;}
                 }
             }
         });
@@ -93,10 +92,11 @@ public class HealthRecord extends AppCompatActivity {
             marker.setVisibility(View.VISIBLE);
         }
     }
-    private void getdata(){
-        HealthData.age = Integer.parseInt(text1.getText().toString());
-        HealthData.body_height = Integer.parseInt(text2.getText().toString());
-        HealthData.body_weight = Integer.parseInt(text3.getText().toString());
-        HealthData.body_HR = Integer.parseInt(text4.getText().toString());
+    private void getHealthData(){
+        PersonInfo.getInstance().setAge(Integer.parseInt(text1.getText().toString()));
+        PersonInfo.getInstance().setHeight(Integer.parseInt(text2.getText().toString()));
+        PersonInfo.getInstance().setWeight(Integer.parseInt(text3.getText().toString()));
+        PersonInfo.getInstance().setHeartBeat(Integer.parseInt(text4.getText().toString()));
+        DatabaseUtil.UpdatePersonInfoRequest(getApplicationContext());
     }
 }

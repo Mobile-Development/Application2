@@ -2,6 +2,7 @@ package com.example.myapplication.ui.records;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,12 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.myapplication.R;
 import com.example.myapplication.adapter.SideSlipAdapter;
+import com.example.myapplication.model.Account;
+import com.example.myapplication.model.PersonInfo;
+import com.example.myapplication.model.PersonSportsInfo;
 import com.example.myapplication.ui.dialog.DialogActivity;
+import com.example.myapplication.utils.DatabaseUtil;
+import com.example.myapplication.utils.TypeUtil;
 import com.necer.calendar.BaseCalendar;
 import com.necer.calendar.Miui10Calendar;
 import com.necer.entity.CalendarDate;
@@ -35,24 +41,28 @@ import com.nightonke.boommenu.Piece.PiecePlaceEnum;
 
 import org.joda.time.LocalDate;
 
+import java.util.AbstractList;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 
 import static com.necer.enumeration.SelectedModel.SINGLE_SELECTED;
 
 public class RecordsFragment extends Fragment {
 
+    List<PersonSportsInfo> personSportsInfos;
      RecordsViewModel recordsViewModel;
     private Miui10Calendar miui10Calendar;
     private TextView tv_result;
 
     private ListView lsv_side_slip_delete;
-    //private List<String> list = new ArrayList<>();
     private List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
     private SideSlipAdapter adapter;
-
     private BoomMenuButton bmb;
     private Integer index;
     private Integer mdoPos;
@@ -63,10 +73,11 @@ public class RecordsFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         recordsViewModel =
                 ViewModelProviders.of(this).get(RecordsViewModel.class);
+        personSportsInfos = new ArrayList<PersonSportsInfo>();
         View root = inflater.inflate(R.layout.fragment_records, container, false);
         calendarInit(root);
-        initData();
         initAdapter();
+        initData();
         buildButtons();
         return root;
     }
@@ -108,9 +119,6 @@ public class RecordsFragment extends Fragment {
     private void initAdapter(){
         // 创建adapter，listview设置adapter
         adapter = new SideSlipAdapter(getActivity(), list);
-        //adapter = new SideSlipAdapter(getActivity(), list ,R.layout.list_item,
-//                new String[]{"time","cal","img"},
-//                new int[]{R.id.item_time,R.id.item_cal,R.id.item_image});
         lsv_side_slip_delete.setAdapter(adapter);
 
         if (adapter != null){
@@ -135,6 +143,20 @@ public class RecordsFragment extends Fragment {
             });
         }
     }
+    public void refreshList(){   //刷新列表
+        Map<String, Object> map =null;
+        Log.i("zxc refresh","personSportsInfos"+personSportsInfos.size());
+        if(personSportsInfos.size()!=0){
+            for(int i=0;i<personSportsInfos.size();i++) {
+                map = new HashMap<String, Object>();
+                map.put("time", personSportsInfos.get(i).getDuration());
+                map.put("cal", personSportsInfos.get(i).getCalorie());
+                map.put("img", personSportsInfos.get(i).getType());////
+                list.add(map);
+            }
+            adapter.notifyDataSetChanged();
+        }
+    }
 
 
     private void buildButtons(){
@@ -151,7 +173,7 @@ public class RecordsFragment extends Fragment {
                 index = i;
                 flag = true;
                 Intent intent = new Intent(getActivity(), DialogActivity.class);
-                intent.putExtra("kind",index);
+                //intent.putExtra("kind",index);
                 intent.putExtra("data","1");
                 startActivityForResult(intent,0);
                 //startActivity(intent);
@@ -178,39 +200,26 @@ public class RecordsFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         //Integer time = Integer.parseInt(data.getStringExtra("data"));
         if(flag){
+            PersonSportsInfo personSportsInfo = new PersonSportsInfo();
             Map<String, Object> map = new HashMap<String, Object>();
-            map.put("time", data.getStringExtra("data"));
-            map.put("cal", "3800");
-            map.put("img", R.drawable.ic_basketball);
+            map.put("time", data.getIntExtra("exeLength",0));
+            map.put("cal","3800" );
+            map.put("img", TypeUtil.indexToType(index));
             list.add(map);
+            personSportsInfo.setType(TypeUtil.indexToType(index));
+            personSportsInfo.setCalorie("3800");
+            personSportsInfo.setDuration(data.getIntExtra("exeLength",0));
+            DatabaseUtil.InsertPersonSportsInfoRequest(personSportsInfo,this);
             adapter.notifyDataSetChanged();
         }
         else{
-            list.get(mdoPos).replace("time", data.getStringExtra("data"));
+            list.get(mdoPos).replace("time", data.getStringExtra("exeLength"));
             adapter.notifyDataSetChanged();
         }
     }
 
     private void initData() {
-
-
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("time", "39");
-        map.put("cal", "3800");
-        map.put("img", R.drawable.ic_basketball);
-        list.add(map);
-
-        map = new HashMap<String, Object>();
-        map.put("time", "39");
-        map.put("cal", "300");
-        map.put("img", R.drawable.ic_cycling);
-        list.add(map);
-
-        map = new HashMap<String, Object>();
-        map.put("time", "20");
-        map.put("cal", "3800");
-        map.put("img", R.drawable.ic_swim_24dp);
-        list.add(map);
+        DatabaseUtil.SearchPersonSportsInfoByIdRequest(personSportsInfos, 1,this);
 
     }
 
@@ -252,5 +261,4 @@ public class RecordsFragment extends Fragment {
                 .normalText("Skateboard");
         bmb.addBuilder(builder8);
     }
-
 }

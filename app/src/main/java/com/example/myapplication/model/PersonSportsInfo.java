@@ -8,7 +8,7 @@ public class PersonSportsInfo {
     private int Id;
     private int duration;
     private String type;
-    private int calorie;
+    private String  calorie;
 
     public int getSNo() {
         return SNo;
@@ -50,11 +50,11 @@ public class PersonSportsInfo {
         this.type = type;
     }
 
-    public int getCalorie() {
+    public String getCalorie() {
         return calorie;
     }
 
-    public void setCalorie(int calorie) {
+    public void setCalorie(String calorie) {
         this.calorie = calorie;
     }
 }

@@ -8,14 +8,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.myapplication.R;
+import com.example.myapplication.ui.BaseActivity;
 
-public class DialogActivity extends Activity {
+public class DialogActivity extends BaseActivity {
 
-    private TextView textView1;
+    private TextView text_exeLength;
     private Button button;
     private ImageView image;
     private Integer num1;
@@ -23,10 +21,10 @@ public class DialogActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog);
-        Integer kind = getIntent().getIntExtra("kind",0);
+        //Integer kind = getIntent().getIntExtra("kind",0);
         String data = getIntent().getStringExtra("data");
-        textView1=(TextView)findViewById(R.id.textView1);
-        textView1.setText(data);
+        text_exeLength =(TextView)findViewById(R.id.text_exeLength);
+        text_exeLength.setText(data);
         button = findViewById(R.id.dialog_confirm);
         image = findViewById(R.id.dialog_icon);
 
@@ -36,7 +34,7 @@ public class DialogActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent();
-                i.putExtra("data", textView1.getText().toString());
+                i.putExtra("exeLength", Integer.parseInt(text_exeLength.getText().toString()));
                 setResult(1, i);
                 finish();
             }
@@ -44,19 +42,19 @@ public class DialogActivity extends Activity {
     }
 
     public void iv_1(View view){
-        num1=Integer.parseInt(textView1.getText().toString());
+        num1=Integer.parseInt(text_exeLength.getText().toString());
         if(num1>1){
             num1-=1;
         }
-        textView1.setText(Integer.toString(num1));
+        text_exeLength.setText(Integer.toString(num1));
 
     }
     public void iv_2(View view){
-        num1=Integer.parseInt(textView1.getText().toString());
+        num1=Integer.parseInt(text_exeLength.getText().toString());
         if(num1<999){
             num1+=1;
         }
-        textView1.setText(Integer.toString(num1));
+        text_exeLength.setText(Integer.toString(num1));
     }
 
 }

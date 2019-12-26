@@ -71,7 +71,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent">
                     <EditText
-                        android:id="@+id/textView1"
+                        android:id="@+id/text_exeLength"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingTop="1dp"

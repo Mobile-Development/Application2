@@ -84,7 +84,7 @@
             android:textSize="24sp" />
 
         <RadioGroup
-            android:id="@+id/radioSex"
+            android:id="@+id/radio_goal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -152,7 +152,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent">
                 <EditText
-                    android:id="@+id/athletic_text1"
+                    android:id="@+id/text_pushUp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingTop="1dp"
@@ -221,7 +221,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent">
                 <EditText
-                    android:id="@+id/athletic_text2"
+                    android:id="@+id/text_pullUp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingTop="1dp"
@@ -291,7 +291,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent">
                 <EditText
-                    android:id="@+id/athletic_text3"
+                    android:id="@+id/text_sitUP"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingTop="1dp"

@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import com.example.myapplication.Greendao.DBHelper;
 import com.example.myapplication.Greendao.entry.UserInfo;
+import com.example.myapplication.ui.BaseActivity;
 import com.example.myapplication.ui.login.LoginActivity;
 import com.example.myapplication.ui.login.RegisterActivity;
 import com.example.myapplication.utils.DateUtil;
@@ -19,7 +20,7 @@ import androidx.navigation.ui.NavigationUI;
 import android.hardware.SensorManager;
 import android.util.Log;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     private SensorManager mSensorManager;
     private boolean returnValue = true;

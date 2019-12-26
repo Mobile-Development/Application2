@@ -52,7 +52,7 @@
          -->
 
         <TextView
-            android:id="@+id/step"
+            android:id="@+id/CAL_TEXT"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -61,7 +61,7 @@
             android:textSize="24sp" />
 
         <TextView
-            android:id="@+id/step2"
+            android:id="@+id/LENGTH_TEXT"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

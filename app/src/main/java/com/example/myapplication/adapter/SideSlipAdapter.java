@@ -1,6 +1,7 @@
 package com.example.myapplication.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
+import com.example.myapplication.utils.TypeUtil;
 import com.mcxtzhang.swipemenulib.SwipeMenuLayout;
 
 import java.util.List;
@@ -71,9 +73,7 @@ public class SideSlipAdapter extends BaseAdapter {
         holder = (ViewHolder) convertView.getTag();
         holder.tv_time.setText(list.get(position).get("time").toString());
         holder.tv_cal.setText(list.get(position).get("cal").toString());
-        //holder.img.setImageResource(list.get(position).get("img"));
-        //holder.img.setImageDrawable(list.get(position).get("img"));
-        //holder.tv_delete.setText(list.get(position));
+        holder.img.setImageResource(TypeUtil.TypeToResourse(list.get(position).get("img").toString()));
 
 
 

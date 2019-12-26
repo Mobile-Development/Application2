@@ -34,6 +34,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.model.Account;
+import com.example.myapplication.ui.BaseActivity;
 import com.example.myapplication.ui.login.LoginViewModel;
 import com.example.myapplication.ui.login.LoginViewModelFactory;
 import com.example.myapplication.utils.DatabaseUtil;
@@ -43,7 +44,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
 
     private LoginViewModel loginViewModel;
 
@@ -95,7 +96,8 @@ public class LoginActivity extends AppCompatActivity {
                 Account.getInstance().setPassword(passwordEditText.getText().toString());
 //                loginViewModel.login(usernameEditText.getText().toString(),
 //                        passwordEditText.getText().toString());
-                DatabaseUtil.LoginRequest(getApplicationContext());
+                DatabaseUtil.LoginRequest(BaseActivity.getCurrentActivity());
+
             }
         });
     }
@@ -168,65 +170,5 @@ public class LoginActivity extends AppCompatActivity {
 //    private void showLoginFailed(@StringRes Integer errorString) {
 //        Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
 //    }
-
-    public void LoginRequest(final String accountNumber, final String password) {
-        //请求地址
-        String url = "http://49.235.33.137:8080/myFirstWebApp/LoginServlet";    //注①
-        String tag = "Login";    //注②
-
-        //取得请求队列
-        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-
-        //防止重复请求，所以先取消tag标识的请求队列
-        requestQueue.cancelAll(tag);
-
-        //创建StringRequest，定义字符串请求的请求方式为POST(省略第一个参数会默认为GET方式)
-        final StringRequest request = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        if (response != "") {
-                            try {
-                                JSONObject jsonObject = (JSONObject) new JSONObject(response).get("params");  //注③
-                                String result = jsonObject.getString("Result");  //成功或者失败
-                                String id = jsonObject.getString("userId");      //登录成功返回当前用户的id，根据id完成后续的操作
-                                if (result.equals("success")) {  //注⑤
-                                    //textView1.setText("Response is: "+ result+id);
-                                    Log.i("xsy login", "success");
-                                    finish();
-                                } else {
-                                    //做自己的登录失败操作，如Toast提示
-                                    //Toast.makeText(getApplicationContext(), "Error:用户名或密码错误", Toast.LENGTH_LONG).show();
-                                    //textView1.setText("Response is: "+ result);
-                                    Log.i("xsy login", "unsuccess");
-                                }
-                            } catch (Exception e) {
-                                //做自己的请求异常操作，如Toast提示（“无网络连接”等）
-                                Log.e("TAG", e.getMessage(), e);
-                            }
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                //做自己的响应错误操作，如Toast提示（“请稍后重试”等）
-                Log.e("TAG", error.getMessage(), error);
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("AccountNumber", accountNumber);  //注⑥
-                params.put("Password", password);
-                return params;
-            }
-        };
-
-        //设置Tag标签
-        request.setTag(tag);
-
-        //将请求添加到队列中
-        requestQueue.add(request);
-    }
 
 }
