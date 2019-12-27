@@ -154,13 +154,13 @@ public class DatabaseUtil {
         requestQueue.add(request);
     }
 
-    public static void SearchPersonInfoRequest(final int Id,Context context) {
+    public static void SearchPersonInfoRequest(final int Id,HomeFragment fragment) {
         //请求地址
         String url = "http://49.235.33.137:8080/myFirstWebApp/SearchPersonInfoServlet";    //注①
         String tag = "SearchPersonInfo";    //注②
 
         //取得请求队列
-        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        RequestQueue requestQueue = Volley.newRequestQueue(fragment.getActivity().getApplicationContext());
 
         //防止重复请求，所以先取消tag标识的请求队列
         requestQueue.cancelAll(tag);
@@ -174,8 +174,8 @@ public class DatabaseUtil {
                             try {
                                 JSONObject jsonObject = (JSONObject) new JSONObject(response).get("params");  //注③
                                 String result = jsonObject.getString("Result");  //成功或者失败
-                                PersonInfo.getInstance().setHeight( Integer.parseInt(jsonObject.getString("Height")));
-                                PersonInfo.getInstance().setWeight( Integer.parseInt(jsonObject.getString("Weight")));
+                                PersonInfo.getInstance().setHeight( (int)(Double.parseDouble(jsonObject.getString("Height"))*100));
+                                PersonInfo.getInstance().setWeight((int)(Double.parseDouble(jsonObject.getString("Weight"))*10));
                                 PersonInfo.getInstance().setBlood( Integer.parseInt(jsonObject.getString("Blood")));
                                 PersonInfo.getInstance().setSitUpNumber( Integer.parseInt(jsonObject.getString("SitupNumber")));
                                 PersonInfo.getInstance().setPushUpNumber( Integer.parseInt(jsonObject.getString("PushupNumber")));
@@ -282,7 +282,7 @@ public class DatabaseUtil {
         requestQueue.add(request);
     }
 
-    public static void SearchStepByIdRequest(final Step step, final int id, HomeFragment fragment) {
+    public static void SearchStepByIdRequest(final Step step, final int id, final HomeFragment fragment) {
         //请求地址
         String url = "http://49.235.33.137:8080/myFirstWebApp/QueryStepByIdServlet";    //注①
         String tag = "QueryStepById";    //注②
@@ -307,11 +307,13 @@ public class DatabaseUtil {
                                     String s="Response is: "+ result+counts;
                                     for(int i=0;i<counts;i++){
                                         String date=jsonObject.getString("Date"+i);
-                                        if(date.equals("2019-12-27")){
+                                        if(date.equals("2019-12-26")){
                                             step.setStepCount(Integer.parseInt(jsonObject.getString("StepCountNumber"+i)));
+                                            step.setDate(DateUtil.StringToDate(date,"yyyy-MM-dd"));
+                                            step.setId(id);
                                         }
-
                                     }
+                                    fragment.refreshView();
                                 } else {
                                     //做自己的登录失败操作，如Toast提示
                                 }
@@ -341,69 +343,6 @@ public class DatabaseUtil {
         //将请求添加到队列中
         requestQueue.add(request);
     }
-
-    public static void SearchSomeStepRequest(final Step step, Context context) {
-        //请求地址
-        String url = "http://49.235.33.137:8080/myFirstWebApp/SearchSomeStepServlet";    //注①
-        String tag = "QuerySomeStep";    //注②
-
-
-        //取得请求队列
-        RequestQueue requestQueue = Volley.newRequestQueue(context);
-
-        //防止重复请求，所以先取消tag标识的请求队列
-        requestQueue.cancelAll(tag);
-        //创建StringRequest，定义字符串请求的请求方式为POST(省略第一个参数会默认为GET方式)
-        final StringRequest request = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        if (response != "") {
-                            try {
-                                JSONObject jsonObject = (JSONObject) new JSONObject(response).get("params");  //注③
-                                String result = jsonObject.getString("Result");  //成功或者失败
-                                if (result.equals("success")) {  //注⑤
-                                    String dateString = jsonObject.getString("Date");
-                                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-                                    Date date = formatter.parse(dateString);
-                                    step.setDate(date);
-                                    String stepCount = jsonObject.getString("StepCount");
-                                    step.setStepCount(Integer.parseInt(stepCount));
-                                    //****
-                                } else {
-                                    //做自己的登录失败操作，如Toast提示
-                                }
-                            } catch (Exception e) {
-                                //做自己的请求异常操作，如Toast提示（“无网络连接”等）
-                                Log.e("TAG", e.getMessage(), e);
-                            }
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                //做自己的响应错误操作，如Toast提示（“请稍后重试”等）
-                Log.e("TAG", error.getMessage(), error);
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("Id", String.valueOf(step.getId()));
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-                String dateString = formatter.format(step.getDate());
-                params.put("Date",dateString);
-                return params;
-            }
-        };
-
-        //设置Tag标签
-        request.setTag(tag);
-
-        //将请求添加到队列中
-        requestQueue.add(request);
-    }
-
     public static void InsertStepRequest(final Step step, Context context) {
         //请求地址
         String url = "http://49.235.33.137:8080/myFirstWebApp/InsertStepServlet";    //注①

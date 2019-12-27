@@ -2,7 +2,6 @@ package com.example.myapplication.utils;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 public class HttpUrlConnectionFactory{
     public static HttpURLConnection createConn(String cYurl) throws IOException {

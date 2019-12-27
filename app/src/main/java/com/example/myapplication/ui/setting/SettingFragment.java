@@ -3,27 +3,27 @@ package com.example.myapplication.ui.setting;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.myapplication.R;
-import com.example.myapplication.constant.HealthData;
+import com.example.myapplication.model.Account;
+import com.example.myapplication.model.HealthData;
 import com.example.myapplication.data.AthleticData;
 import com.example.myapplication.data.HealthRecord;
+import com.example.myapplication.model.PersonInfo;
+import com.example.myapplication.utils.PhysicalUtil;
 
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,32 +37,29 @@ public class SettingFragment extends Fragment {
     private TableRow tableRow1;
     private TableRow tableRow2;
     private TextView anal_text;
+    private TextView username_text;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         settingViewModel =
                 ViewModelProviders.of(this).get(SettingViewModel.class);
         View root = inflater.inflate(R.layout.fragment_setting, container, false);
-
         tableRow1 = root.findViewById(R.id.more_page_row1);
         tableRow2 = root.findViewById(R.id.more_page_row2);
         anal_text = root.findViewById(R.id.anal_text);
+        username_text = root.findViewById(R.id.username);
+        username_text.setText(Account.getInstance().getAccountNumber());
         setListener();
 
         final ArrayList<ArcProgressStackView.Model> models = new ArrayList<>();
-        float bmi = HealthData.body_weight/((HealthData.body_height/100) * (HealthData.body_height/100));
-        Double Dpbf = (1.2*bmi + 0.23*HealthData.age - 5.4 - 10.8*HealthData.Male);
-        Double Dbmr = (655 + (9.6*HealthData.body_weight) + 1.8*HealthData.body_height/100 - 4.7*HealthData.age) * HealthData.Male +
-                (66 + (13.7*HealthData.body_weight) + 5*HealthData.body_height/100 - 6.8*HealthData.age) * HealthData.Female;
-        Double bmr = Dbmr/20;
-        models.add(new ArcProgressStackView.Model("BMI", Math.round(bmi), Color.parseColor("#DCDCDC"), Color.parseColor("#26A69A")));
-        models.add(new ArcProgressStackView.Model("PBF", Dpbf.intValue(), Color.parseColor("#C0C0C0"), Color.parseColor("#0088FF")));
-        models.add(new ArcProgressStackView.Model("BMR", bmr.intValue(), Color.parseColor("#D3D3D3"), Color.parseColor("#26A69A")));
+        initData();
+        models.add(new ArcProgressStackView.Model("BMI", (int)PhysicalUtil.getBmi(), Color.parseColor("#DCDCDC"), Color.parseColor("#26A69A")));
+        models.add(new ArcProgressStackView.Model("PBF", (int)PhysicalUtil.getDpbf(), Color.parseColor("#C0C0C0"), Color.parseColor("#0088FF")));
+        models.add(new ArcProgressStackView.Model("BMR", (int)PhysicalUtil.getBmr(), Color.parseColor("#D3D3D3"), Color.parseColor("#26A69A")));
         models.add(new ArcProgressStackView.Model("HR", HealthData.body_HR, Color.parseColor("#A9A9A9"), Color.parseColor("#0088FF")));
-
         final ArcProgressStackView arcProgressStackView = (ArcProgressStackView) root.findViewById(R.id.apsv);
         arcProgressStackView.setModels(models);
-        anal_text.setText("BMI:"+ Math.round(bmi)+"\n\nPBF："+Dpbf.intValue()+"\n\n BMR："+bmr.intValue() +"\n\n HR："+HealthData.body_HR);
+        anal_text.setText("BMI:"+ Math.round(PhysicalUtil.getBmi())+"\n\nPBF："+(int)PhysicalUtil.getDpbf()+"\n\n BMR："+(int)PhysicalUtil.getBmr() +"\n\n HR："+HealthData.body_HR);
         return root;
     }
 
@@ -81,5 +78,12 @@ public class SettingFragment extends Fragment {
                 startActivity(intent);
             }
         });
+    }
+    private void initData(){
+        HealthData.age = PersonInfo.getInstance().getAge();
+        HealthData.body_height = PersonInfo.getInstance().getHeight();
+        HealthData.body_weight = PersonInfo.getInstance().getWeight();
+        HealthData.body_HR = PersonInfo.getInstance().getHeartBeat();
+        Log.i("zxc HealthData",HealthData.age+" "+HealthData.body_height+ " "+HealthData.body_weight);
     }
 }

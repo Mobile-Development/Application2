@@ -2,7 +2,6 @@ package com.example.myapplication.utils;
 
 import com.example.myapplication.R;
 
-import java.util.List;
 
 public class TypeUtil {
     public static String indexToType(int index){

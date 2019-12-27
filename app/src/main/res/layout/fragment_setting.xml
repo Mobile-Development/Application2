@@ -45,6 +45,7 @@
                     android:src="@mipmap/ic_launcher_round" />
 
                 <TextView
+                    android:id="@+id/username"
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
                     android:drawableRight="@drawable/ic_chevron_right_white_24dp"
@@ -52,7 +53,6 @@
                     android:gravity="center_vertical"
                     android:includeFontPadding="false"
                     android:paddingRight="170.0dip"
-                    android:text="77"
                     android:textColor="#ffffff"
                     android:textSize="18.0sp" />
 

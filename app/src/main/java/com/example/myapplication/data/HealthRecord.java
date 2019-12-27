@@ -3,22 +3,15 @@ package com.example.myapplication.data;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.R;
-import com.example.myapplication.constant.HealthData;
-import com.example.myapplication.model.Account;
 import com.example.myapplication.model.PersonInfo;
 import com.example.myapplication.utils.DatabaseUtil;
-
-import static com.example.myapplication.utils.DatabaseUtil.SearchPersonInfoRequest;
 
 public class HealthRecord extends AppCompatActivity {
     private TextView confirm_button;

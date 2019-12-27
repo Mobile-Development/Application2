@@ -8,67 +8,6 @@ import java.util.Map;
 
 public class JsonUtils {
 
-    //解析有道词典JSON数据
-    public static Map<String, Object> YdJsonUtil(String json) throws Exception{
-        Map<String, Object> result = new HashMap<>();
-        JSONArray jsonArray = new JSONArray("[" + json +"]");
-        StringBuffer sb = new StringBuffer();
-
-        for(int i = 0;i<jsonArray.length();i++) {
-            JSONObject jsonObject = jsonArray.getJSONObject(i);
-            int errorCode = jsonObject.getInt("errorCode");
-            result.put("errorCode", errorCode);
-            if(errorCode != 0) {
-                return result;
-            }
-            //有道翻译
-            if(jsonObject.has("translation")) {
-                sb.append("有道翻译\n");
-                JSONArray translations = jsonObject.getJSONArray("translation");
-                int length = translations.length() - 1;
-                for(int j = 0;j<length;j++) {
-                    sb.append(translations.getString(j)).append(",");
-                }
-                sb.append(translations.getString(length)).append("\n");
-            }
-            //有道词典-基本词典
-            if(jsonObject.has("basic")) {
-                sb.append("有道词典-基本词典\n");
-                JSONObject basic = jsonObject.getJSONObject("basic");
-                if(basic.has("explain")) {
-                    JSONArray explains = basic.getJSONArray("explain");
-                    int length = explains.length() - 1;
-                    for(int j = 0;j<length;j++) {
-                        sb.append(explains.getString(j)).append(",");
-                    }
-                    sb.append(explains.getString(length)).append("\n");
-                }
-            }
-            //有道词典-网络释义
-            if(jsonObject.has("web")) {
-                sb.append("有道词典-网络释义\n");
-                JSONArray webs = jsonObject.getJSONArray("web");
-                int websLen = webs.length();
-                for(int j = 0;j<websLen;j++) {
-                    JSONObject webObject = webs.getJSONObject(j);
-                    if(webObject.has("key")) {
-                        sb.append("(").append(j+1).append(")\n").append(webObject.getString("key")).append("\n");
-                    }
-                    if(webObject.has("value")) {
-                        JSONArray values = webObject.getJSONArray("value");
-                        int valLen = values.length() - 1;
-                        for(int k = 0;k<valLen;k++) {
-                            sb.append(values.getString(k)).append(",");
-                        }
-                        sb.append(values.getString(valLen)).append("\n");
-                    }
-                }
-            }
-        }
-        result.put("message", sb.toString());
-        return result;
-    }
-
     //将地点转化为经纬度
     public static Map<String, Object> LocJsonUtil(String json) throws Exception {
         Map<String, Object> map = new HashMap<>();

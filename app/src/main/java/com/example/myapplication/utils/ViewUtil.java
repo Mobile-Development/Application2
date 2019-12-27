@@ -40,25 +40,11 @@ public class ViewUtil {
         mToast.setGravity(Gravity.BOTTOM, 0, activity.getResources().getDisplayMetrics().heightPixels / 5);
         mToast.show();
     }
-
-    public static void startActivityForResult(Activity fromActivity, Class<?> toClass, int requestCode) {
-        Intent intent = new Intent(fromActivity, toClass);
-        fromActivity.startActivityForResult(intent, requestCode);
-        fromActivity.overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
-    }
-
     /**
      * 调整Picker布局
      *
      * @param frameLayout
      */
-    public static void resizePicker(FrameLayout frameLayout) {
-        List<NumberPicker> numberPickers = findNumberPicker(frameLayout);
-        for (NumberPicker numberPicker : numberPickers) {
-            resizeNumberPicker(numberPicker);
-        }
-    }
-
     /**
      * 获取ViewGroup中的NumberPicker组件
      *
@@ -66,25 +52,6 @@ public class ViewUtil {
      *
      * @return
      */
-    private static List<NumberPicker> findNumberPicker(ViewGroup viewGroup) {
-        List<NumberPicker> numberPickers = new ArrayList<>();
-        View child;
-        if (null != viewGroup) {
-            for (int i = 0; i < viewGroup.getChildCount(); i++) {
-                child = viewGroup.getChildAt(i);
-                if (child instanceof NumberPicker) {
-                    numberPickers.add((NumberPicker) child);
-                } else if (child instanceof LinearLayout) {
-                    List<NumberPicker> result = findNumberPicker((ViewGroup) child);
-                    if (result.size() > 0) {
-                        return result;
-                    }
-                }
-            }
-        }
-        return numberPickers;
-    }
-
     /**
      * 调整NumberPicker大小
      *
