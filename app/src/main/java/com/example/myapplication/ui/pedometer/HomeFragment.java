@@ -25,6 +25,7 @@ import com.example.myapplication.Greendao.DBHelper;
 import com.example.myapplication.Greendao.entry.StepInfo;
 import com.example.myapplication.R;
 import com.example.myapplication.constant.Constant;
+import com.example.myapplication.model.Step;
 import com.example.myapplication.stepDetector.StepService;
 import com.example.myapplication.utils.ConversionUtil;
 import com.example.myapplication.utils.DatabaseUtil;
@@ -36,13 +37,13 @@ import java.text.DecimalFormat;
 import static android.content.Context.BIND_AUTO_CREATE;
 
 public class HomeFragment extends Fragment implements Handler.Callback{
-
-//    private HomeViewModel homeViewModel;
+    //    private HomeViewModel homeViewModel;
     private Messenger messenger;
     private Messenger mGetReplyMessenger = new Messenger(new Handler(this));
     private Handler delayHandler;
     private DecimalFormat df1 = new DecimalFormat("0.00");
     private TextView stepCountText, CalText, LengthText;
+    private Step step;
 
     private LineChartView mChart;
 
@@ -77,8 +78,9 @@ public class HomeFragment extends Fragment implements Handler.Callback{
         LengthText = root.findViewById(R.id.LENGTH_TEXT);
         mChart= root.findViewById(R.id.lineChart);
 
-        initBarChatData();
+
         initData();
+        initBarChatData();
         initChart();
         return root;
     }
@@ -88,20 +90,14 @@ public class HomeFragment extends Fragment implements Handler.Callback{
     private void initData() {
         delayHandler = new Handler(this);
         Intent intent = new Intent(getActivity(), StepService.class);
+        step= new Step();
         getActivity().bindService(intent, conn, BIND_AUTO_CREATE);
     }
 
     private void initBarChatData() {
 //        StepInfo stepInfo = DBHelper.getStepInfo(DateUtil.getTodayDate());
-        DatabaseUtil.SearchStepByIdRequest(1,this);
-        if (stepInfo != null) {
-            int step = stepInfo.getStepCount();
-            String mileages = String.valueOf(ConversionUtil.step2Mileage(step));
-            String calorie = df1.format(ConversionUtil.step2Calories(step));
-            stepCountText.setText(" " + step + " ");
-            CalText.setText("   卡路里:" + calorie + "卡");
-            LengthText.setText("  行走:" + mileages + "米");
-        }
+        DatabaseUtil.SearchStepByIdRequest(step,1,this);
+        refreshView();
     }
 
     private void initChart(){
@@ -127,11 +123,7 @@ public class HomeFragment extends Fragment implements Handler.Callback{
     public boolean handleMessage(Message msg) {
         switch (msg.what) {
             case Constant.MSG_FROM_SERVER:
-                long step = msg.getData().getLong("step");
-                String mileages = String.valueOf(ConversionUtil.step2Mileage(step));
-                String calorie = df1.format(ConversionUtil.step2Calories(step));
-                CalText.setText("卡路里:" + calorie + "卡");
-                LengthText.setText("  行走:" + mileages + "米");
+                refreshView();
                 delayHandler.sendEmptyMessageDelayed(Constant.REQUEST_SERVER, Constant.TIME_INTERVAL);
                 //colorArcProgressBar.setCurrentValues((int) step);
                 break;
@@ -146,5 +138,15 @@ public class HomeFragment extends Fragment implements Handler.Callback{
                 break;
         }
         return false;
+    }
+    public void refreshView(){
+        if (step !=null) {
+            int stepCount = step.getStepCount();
+            int len = (int)(stepCount*0.4);
+            String calorie = String.valueOf(len*1.5);
+            stepCountText.setText(" " + stepCount + " ");
+            CalText.setText("   卡路里:" + calorie + "卡");
+            LengthText.setText("  行走:" + len + "米");
+        }
     }
 }
