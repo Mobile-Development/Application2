@@ -174,8 +174,8 @@ public class DatabaseUtil {
                             try {
                                 JSONObject jsonObject = (JSONObject) new JSONObject(response).get("params");  //注③
                                 String result = jsonObject.getString("Result");  //成功或者失败
-                                PersonInfo.getInstance().setHeight( (int)(Double.parseDouble(jsonObject.getString("Height"))*100));
-                                PersonInfo.getInstance().setWeight((int)(Double.parseDouble(jsonObject.getString("Weight"))*10));
+                                PersonInfo.getInstance().setHeight( (int)(Double.parseDouble(jsonObject.getString("Height"))));
+                                PersonInfo.getInstance().setWeight((int)(Double.parseDouble(jsonObject.getString("Weight"))));
                                 PersonInfo.getInstance().setBlood( Integer.parseInt(jsonObject.getString("Blood")));
                                 PersonInfo.getInstance().setSitUpNumber( Integer.parseInt(jsonObject.getString("SitupNumber")));
                                 PersonInfo.getInstance().setPushUpNumber( Integer.parseInt(jsonObject.getString("PushupNumber")));
