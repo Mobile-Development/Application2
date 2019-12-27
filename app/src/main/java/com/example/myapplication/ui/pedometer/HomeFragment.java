@@ -38,6 +38,7 @@ import static android.content.Context.BIND_AUTO_CREATE;
 
 public class HomeFragment extends Fragment implements Handler.Callback{
     //    private HomeViewModel homeViewModel;
+
     private Messenger messenger;
     private Messenger mGetReplyMessenger = new Messenger(new Handler(this));
     private Handler delayHandler;

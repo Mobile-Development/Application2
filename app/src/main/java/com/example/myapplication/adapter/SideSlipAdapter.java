@@ -18,11 +18,9 @@ import com.mcxtzhang.swipemenulib.SwipeMenuLayout;
 
 import java.util.List;
 import java.util.Map;
-//extends SimpleAdapter
 public class SideSlipAdapter extends BaseAdapter {
 
     private LayoutInflater inflater;
-    //private List<String> list;
     private List<? extends Map<String, ?>> list;
     private Context context;
 
@@ -31,7 +29,6 @@ public class SideSlipAdapter extends BaseAdapter {
         this.inflater = LayoutInflater.from(context);
         this.list = data;
         this.context = context;
-        //(this,getData(),R.layout.vlist,new String[]{"title","info","img"},new int[]{R.id.title,R.id.info,R.id.img});
     }
 
     @Override
@@ -56,7 +53,6 @@ public class SideSlipAdapter extends BaseAdapter {
         if (convertView == null){
             convertView = inflater.inflate(R.layout.listview_item_delete, parent, false);
             holder = new ViewHolder();
-            //holder.tv_delete = convertView.findViewById(R.id.content);
             holder.tv_time = convertView.findViewById(R.id.item_time);
             holder.tv_cal = convertView.findViewById(R.id.item_cal);
             holder.img = convertView.findViewById(R.id.item_image);
@@ -81,7 +77,6 @@ public class SideSlipAdapter extends BaseAdapter {
         holder.btn_top.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(context, "置顶", Toast.LENGTH_SHORT).show();
                 ((SwipeMenuLayout)(finalCloseView)).quickClose();// 关闭侧滑菜单：需要将itemView强转，然后调用quickClose()方法
                 if (modItemListener != null){
                     modItemListener.modify(position);// 调用接口的方法，回调删除该项数据
@@ -107,7 +102,6 @@ public class SideSlipAdapter extends BaseAdapter {
      * 缓存控件用
      */
     static class ViewHolder{
-        //TextView tv_delete;// 展示内容
         TextView tv_time;
         TextView tv_cal;
         ImageView img;

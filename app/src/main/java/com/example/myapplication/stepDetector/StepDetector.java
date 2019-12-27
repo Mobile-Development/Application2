@@ -105,14 +105,6 @@ public class StepDetector implements SensorEventListener {
         detectorNewStep(average);
     }
 
-    /**
-     * 监测新的步数
-     * <p>
-     * 1.传入sersor中的数据
-     * 2.如果检测到了波峰，并且符合时间差以及阈值的条件，则判定位1步
-     * 3.符合时间差条件，波峰波谷差值大于initialValue，则将该差值纳入阈值的计算中
-     *
-     */
     private void detectorNewStep(float values) {
         if (gravityOld == 0) {
             gravityOld = values;
@@ -137,18 +129,14 @@ public class StepDetector implements SensorEventListener {
         gravityOld = values;
     }
 
-    /**
-     * 判断状态并计步
-     */
     private void preStep() {
         if (CountTimeState == 0) {
-            //开启计时器(倒计时3.5秒,倒计时时间间隔为0.7秒)  是在3.5秒内每0.7面去监测一次。
             time = new TimeCount(duration, 700);
             time.start();
             CountTimeState = 1;  //计时中
             Log.v(TAG, "开启计时器");
         } else if (CountTimeState == 1) {
-            TEMP_STEP++;          //如果传感器测得的数据满足走一步的条件则步数加1
+            TEMP_STEP++;
             Log.v(TAG, "计步中 TEMP_STEP:" + TEMP_STEP);
         } else if (CountTimeState == 2) {
             CURRENT_STEP++;
@@ -160,18 +148,6 @@ public class StepDetector implements SensorEventListener {
         }
     }
 
-    /**
-     * 监测波峰
-     * 以下四个条件判断为波峰
-     * 1.目前点为下降的趋势：isDirectionUp为false
-     * 2.之前的点为上升的趋势：lastStatus为true
-     * 3.到波峰为止，持续上升大于等于2次
-     * 4.波峰值大于1.2g,小于2g
-     * 记录波谷值
-     * 1.观察波形图，可以发现在出现步子的地方，波谷的下一个就是波峰，有比较明显的特征以及差值
-     * 2.所以要记录每次的波谷值，为了和下次的波峰作对比
-     *
-     */
     public boolean DetectorPeak(float newValue, float oldValue) {
         lastStatus = isDirectionUp;
         if (newValue >= oldValue) {
@@ -195,22 +171,12 @@ public class StepDetector implements SensorEventListener {
         }
     }
 
-    /**
-     * 阈值的计算
-     * 1.通过波峰波谷的差值计算阈值
-     * 2.记录4个值，存入tempValue[]数组中
-     * 3.在将数组传入函数averageValue中计算阈值
-     *
-     * @param value
-     * @return
-     */
     public float Peak_Valley_Thread(float value) {
         float tempThread = ThreadValue;
         if (tempCount < valueNum) {
             tempValue[tempCount] = value;
             tempCount++;
         } else {
-            //此时tempCount=valueNum=5
             tempThread = averageValue(tempValue, valueNum);
             for (int i = 1; i < valueNum; i++) {
                 tempValue[i - 1] = tempValue[i];
@@ -220,17 +186,6 @@ public class StepDetector implements SensorEventListener {
         return tempThread;
     }
 
-    /**
-     * 梯度化阈值
-     * 1.计算数组的均值
-     * 2.通过均值将阈值梯度化在一个范围里
-     * <p>
-     * 这些数据是通过大量的统计得到的
-     *
-     * @param value
-     * @param n
-     * @return
-     */
     public float averageValue(float[] value, int n) {
         float ave = 0;
         for (int i = 0; i < n; i++) {
@@ -258,12 +213,7 @@ public class StepDetector implements SensorEventListener {
 
 
     class TimeCount extends CountDownTimer {
-        /**
-         * 构造函数
-         *
-         * @param millisInFuture    倒计时时间
-         * @param countDownInterval 倒计时时间间隔
-         */
+
         public TimeCount(long millisInFuture, long countDownInterval) {
             super(millisInFuture, countDownInterval);
         }
@@ -271,7 +221,6 @@ public class StepDetector implements SensorEventListener {
         @Override
         public void onTick(long millisUntilFinished) {
             if (lastStep == TEMP_STEP) {
-                //一段时间内，TEMP_STEP没有步数增长，则计时停止，同时计步也停止
                 Log.v(TAG, "onTick 计时停止");
                 time.cancel();
                 CountTimeState = 0;

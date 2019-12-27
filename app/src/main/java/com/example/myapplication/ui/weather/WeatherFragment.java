@@ -80,15 +80,6 @@ public class WeatherFragment extends Fragment {
             }
         });
 
-//        returnBut = findViewById(R.id.w_return);
-//        returnBut.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent();
-//                intent.setClass(WeatherActivity.this, ChooseActivity.class);
-//                startActivity(intent);
-//            }
-//        });
     }
 
     private void initHandler() {

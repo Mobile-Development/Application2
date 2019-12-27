@@ -16,4 +16,6 @@
     <string name="start_trace">开启记路</string>
     <string name="stop_trace">停止记路</string>
     <string name="font_type">微软雅黑</string>
+    <string name="title_setting">Setting</string>
+    <string name="title_Record">Record</string>
 </resources>
