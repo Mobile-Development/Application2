@@ -282,7 +282,7 @@ public class DatabaseUtil {
         requestQueue.add(request);
     }
 
-    public static void SearchStepByIdRequest(final Step step, final int id, HomeFragment fragment) {
+    public static void SearchStepByIdRequest(final Step step, final int id, final HomeFragment fragment) {
         //请求地址
         String url = "http://49.235.33.137:8080/myFirstWebApp/QueryStepByIdServlet";    //注①
         String tag = "QueryStepById";    //注②
@@ -307,11 +307,13 @@ public class DatabaseUtil {
                                     String s="Response is: "+ result+counts;
                                     for(int i=0;i<counts;i++){
                                         String date=jsonObject.getString("Date"+i);
-                                        if(date.equals("2019-12-27")){
+                                        if(date.equals("2019-12-26")){
                                             step.setStepCount(Integer.parseInt(jsonObject.getString("StepCountNumber"+i)));
+                                            step.setDate(DateUtil.StringToDate(date,"yyyy-MM-dd"));
+                                            step.setId(id);
                                         }
-
                                     }
+                                    fragment.refreshView();
                                 } else {
                                     //做自己的登录失败操作，如Toast提示
                                 }
